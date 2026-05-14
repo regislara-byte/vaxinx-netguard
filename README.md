@@ -15,6 +15,8 @@ It is designed as a lightweight, dependency-minimal first-response tool: run it 
 
 ---
 
+Live : https://regislara-byte.github.io/vaxinx-netguard/dashboard/
+
 ## Architecture
 
 ```
