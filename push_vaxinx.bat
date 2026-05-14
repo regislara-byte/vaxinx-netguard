@@ -18,7 +18,7 @@ echo.
 echo Opening live site...
 timeout /t 2 >nul
 
-cmd /c start "" "https://regislara-byte.github.io/vaxinx-netguard/"
+start "" "https://regislara-byte.github.io/vaxinx-netguard/dashboard/"
 
 echo.
 echo ================================
