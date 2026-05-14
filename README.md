@@ -13,9 +13,9 @@ Educational defensive monitoring tool for cybersecurity learning, telemetry visu
 
 It is designed as a lightweight, dependency-minimal first-response tool: run it on any machine in seconds, get a structured report, and review threats in the browser.
 
----
-
 Live : https://regislara-byte.github.io/vaxinx-netguard/dashboard/
+
+---
 
 ## Architecture
 
