@@ -1,0 +1,473 @@
+{
+    "tool": "VAXINX NetGuard v1",
+    "mode": "Defensive Learning Monitor",
+    "timestamp": "2026-05-14 15:46:36",
+    "network": {
+        "upload_mb_per_sec": 0.02,
+        "download_mb_per_sec": 0.01,
+        "total_uploaded_mb": 99.83,
+        "total_downloaded_mb": 683.99
+    },
+    "risk": {
+        "level": "LOW",
+        "score": 20,
+        "recommended_action": "Normal activity. Keep observing.",
+        "alerts": [
+            "Many unknown processes detected."
+        ]
+    },
+    "processes": [
+        {
+            "pid": 0,
+            "name": "System Idle Process",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 4,
+            "name": "System",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 140,
+            "name": "unknown",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 184,
+            "name": "Registry",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 644,
+            "name": "smss.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 676,
+            "name": "opera.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 732,
+            "name": "wininit.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 744,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 772,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 952,
+            "name": "csrss.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 1072,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1112,
+            "name": "services.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 1140,
+            "name": "LsaIso.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 1148,
+            "name": "lsass.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 1172,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1176,
+            "name": "Code.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1252,
+            "name": "chrome.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1272,
+            "name": "chrome.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1284,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1324,
+            "name": "fontdrvhost.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 1332,
+            "name": "WUDFHost.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 1460,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1500,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1624,
+            "name": "Code.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1640,
+            "name": "UserOOBEBroker.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        },
+        {
+            "pid": 1664,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1696,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1708,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1724,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1876,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 1884,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2000,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2020,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2028,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2108,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2128,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2192,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2280,
+            "name": "svchost.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2352,
+            "name": "chrome.exe",
+            "risk": "LOW",
+            "meaning": "Known or common process."
+        },
+        {
+            "pid": 2368,
+            "name": "igfxCUIService.exe",
+            "risk": "MEDIUM",
+            "meaning": "Unknown process. Review if unfamiliar."
+        }
+    ],
+    "ports": [
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "10.2.0.2",
+            "port": 56027,
+            "status": "ESTABLISHED",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "0.0.0.0",
+            "port": 62018,
+            "status": "NONE",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 54502,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 54502,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "10.2.0.2",
+            "port": 54452,
+            "status": "ESTABLISHED",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "::",
+            "port": 52517,
+            "status": "NONE",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "192.168.0.188",
+            "port": 139,
+            "status": "LISTEN",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 51564,
+            "status": "LISTEN",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 8640,
+            "status": "LISTEN",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "::",
+            "port": 49674,
+            "status": "LISTEN",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "0.0.0.0",
+            "port": 49674,
+            "status": "LISTEN",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 62003,
+            "status": "ESTABLISHED",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 62309,
+            "status": "ESTABLISHED",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 53700,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "10.2.0.2",
+            "port": 55367,
+            "status": "ESTABLISHED",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 54502,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 62308,
+            "status": "ESTABLISHED",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 4973,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "0.0.0.0",
+            "port": 49665,
+            "status": "LISTEN",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "127.0.0.1",
+            "port": 54502,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        },
+        {
+            "ip": "10.2.0.2",
+            "port": 56664,
+            "status": "TIME_WAIT",
+            "meaning": "Unmapped local port",
+            "risk": "LOW"
+        }
+    ]
+}
