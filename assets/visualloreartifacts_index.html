@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAXINX NetGuard — Visual Lore Artifacts</title>
+  <style>
+    :root {
+      --bg: #020408;
+      --panel: #07111c;
+      --panel-2: #0b1826;
+      --cyan: #00c8ff;
+      --green: #00ff9d;
+      --yellow: #ffd700;
+      --red: #ff3c5a;
+      --text: #e0f4ff;
+      --muted: #6a91a8;
+      --border: rgba(0, 200, 255, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(0,200,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.035) 1px, transparent 1px),
+        radial-gradient(circle at top, rgba(0,200,255,0.12), transparent 35%),
+        var(--bg);
+      background-size: 40px 40px, 40px 40px, auto, auto;
+      color: var(--text);
+      font-family: Consolas, "Courier New", monospace;
+      padding: 28px;
+    }
+
+    header {
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(0,200,255,0.12), rgba(255,60,90,0.05));
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 0 28px rgba(0,200,255,0.08);
+    }
+
+    h1 {
+      color: var(--cyan);
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 980px;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--cyan);
+      border: 1px solid var(--border);
+      padding: 9px 14px;
+      background: rgba(0,200,255,0.08);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+    }
+
+    .btn:hover {
+      background: rgba(0,200,255,0.16);
+      box-shadow: 0 0 18px rgba(0,200,255,0.22);
+    }
+
+    .notice {
+      border-left: 3px solid var(--yellow);
+      background: rgba(255,215,0,0.07);
+      color: var(--muted);
+      padding: 13px 16px;
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section h2 {
+      color: var(--green);
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      padding: 14px;
+      min-height: 128px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      color: var(--cyan);
+      font-size: 0.92rem;
+      margin-bottom: 8px;
+      word-break: break-word;
+    }
+
+    .card-desc {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .card a {
+      color: var(--green);
+      text-decoration: none;
+      font-size: 0.78rem;
+    }
+
+    .card a:hover {
+      color: var(--yellow);
+    }
+
+    footer {
+      margin-top: 34px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-align: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    code {
+      color: var(--yellow);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>VAXINX NETGUARD · VLA</h1>
+    <p class="subtitle">
+      Visual Lore Artifacts preserve the engineering evolution of this cybersecurity project:
+      screenshots, workflow milestones, architecture states, terminal proofs, and dashboard upgrades.
+    </p>
+    <div class="top-actions">
+      <a class="btn" href="../../dashboard/index.html">← Back to Dashboard</a>
+      <a class="btn" href="../../README.md">README.md</a>
+      <a class="btn" href="https://github.com/regislara-byte" target="_blank" rel="noopener">GitHub Profile</a>
+    </div>
+  </header>
+
+  <div class="notice">
+    Drop your screenshots into the matching folders below. If an image is not available yet, keep the card as a reserved documentation slot.
+  </div>
+
+  <section class="section">
+    <h2>Phase 1 · Foundation</h2>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <div class="card-title">static_dashboard.jpeg</div>
+          <div class="card-desc">First static dashboard state before real JSON injection.</div>
+        </div>
+        <a href="phase1/static_dashboard.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">first_json_mockup.jpeg</div>
+          <div class="card-desc">Initial JSON/mock-data concept used to shape the UI.</div>
+        </div>
+        <a href="phase1/first_json_mockup.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">terminal_setup.jpeg</div>
+          <div class="card-desc">Early terminal setup and project activation proof.</div>
+        </div>
+        <a href="phase1/terminal_setup.jpeg">Open artifact →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Phase 2 · Real Data Injection</h2>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <div class="card-title">json_export.jpeg</div>
+          <div class="card-desc">Python-generated <code>network_report.json</code> proof.</div>
+        </div>
+        <a href="phase2/json_export.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">fetch_connection.jpeg</div>
+          <div class="card-desc">Browser fetch bridge connecting dashboard to report data.</div>
+        </div>
+        <a href="phase2/fetch_connection.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">auto_refresh.jpeg</div>
+          <div class="card-desc">Auto-refresh cycle proving live dashboard update behavior.</div>
+        </div>
+        <a href="phase2/auto_refresh.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">live_dashboard.jpeg</div>
+          <div class="card-desc">Final Phase 2 dashboard view with live data active.</div>
+        </div>
+        <a href="phase2/live_dashboard.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">terminal_scan.jpeg</div>
+          <div class="card-desc">Terminal scan execution showing Python runtime flow.</div>
+        </div>
+        <a href="phase2/terminal_scan.jpeg">Open artifact →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Architecture · System Map</h2>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <div class="card-title">folder_tree.jpeg</div>
+          <div class="card-desc">Repository structure and folder-node organization.</div>
+        </div>
+        <a href="architecture/folder_tree.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">vsc_structure.jpeg</div>
+          <div class="card-desc">VS Code workspace view showing engineering context.</div>
+        </div>
+        <a href="architecture/vsc_structure.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">dashboard_layout.jpeg</div>
+          <div class="card-desc">Dashboard layout map and visual component structure.</div>
+        </div>
+        <a href="architecture/dashboard_layout.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">scan_flow.jpeg</div>
+          <div class="card-desc">Python → JSON → fetch → dashboard engineering pipeline.</div>
+        </div>
+        <a href="architecture/scan_flow.jpeg">Open artifact →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Evolution · Before / After</h2>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <div class="card-title">phase1_vs_phase2.jpeg</div>
+          <div class="card-desc">Comparison between static UI and live data dashboard.</div>
+        </div>
+        <a href="evolution/phase1_vs_phase2.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">old_ui.jpeg</div>
+          <div class="card-desc">Previous UI state before the NetGuard upgrade.</div>
+        </div>
+        <a href="evolution/old_ui.jpeg">Open artifact →</a>
+      </div>
+      <div class="card">
+        <div>
+          <div class="card-title">upgraded_ui.jpeg</div>
+          <div class="card-desc">Upgraded cyber dashboard after Phase 2 refinement.</div>
+        </div>
+        <a href="evolution/upgraded_ui.jpeg">Open artifact →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    VAXINX Protocol™ · Visual Lore Artifacts · Engineering Memory Checkpoints
+  </footer>
+</body>
+</html>

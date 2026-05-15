@@ -45,451 +45,285 @@
     background-size: 40px 40px;
   }
 
-  /* ── SCANLINE OVERLAY ── */
   body::before {
     content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 4px
-    );
-    pointer-events: none;
-    z-index: 9999;
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+    pointer-events: none; z-index: 9999;
   }
 
   /* ── HEADER ── */
   header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px;
     background: linear-gradient(90deg, var(--bg-1), var(--bg-2));
     border-bottom: 1px solid var(--border-hot);
     box-shadow: 0 2px 30px rgba(0,200,255,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: sticky; top: 0; z-index: 100;
   }
 
-  .logo {
-    font-family: 'Orbitron', monospace;
-    font-weight: 900;
-    font-size: 1.4rem;
-    color: var(--cyan);
-    text-shadow: var(--glow-cyan);
-    letter-spacing: 0.12em;
-  }
-
+  .logo { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.4rem; color: var(--cyan); text-shadow: var(--glow-cyan); letter-spacing: 0.12em; }
   .logo span { color: var(--red); }
+  .logo sub { font-size: 0.45rem; color: var(--text-muted); letter-spacing: 0.2em; display: block; margin-top: 2px; }
 
-  .header-meta {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
+  .header-right { display: flex; align-items: center; gap: 20px; font-size: 0.72rem; color: var(--text-secondary); }
+
+  .data-source-badge {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border: 1px solid var(--border);
+    background: var(--bg-2); font-size: 0.65rem; color: var(--text-secondary);
   }
+  .data-source-badge.live { border-color: var(--green-dim); color: var(--green); }
+  .data-source-badge.mock { border-color: var(--yellow-dim); color: var(--yellow); }
+  .data-source-badge.error { border-color: var(--red-dim); color: var(--red); }
 
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: var(--glow-green);
-    animation: pulse 2s infinite;
-    display: inline-block;
-    margin-right: 6px;
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .dot-green { background: var(--green); box-shadow: var(--glow-green); animation: pulse 2s infinite; }
+  .dot-yellow { background: var(--yellow); animation: pulse 1.5s infinite; }
+  .dot-red { background: var(--red); box-shadow: var(--glow-red); animation: pulse 0.8s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+  @keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0.15} }
+  @keyframes slideDown { from{transform:translateY(-100%);opacity:0} to{transform:translateY(0);opacity:1} }
+  @keyframes fadeIn { from{opacity:0;transform:translateX(-6px)} to{opacity:1;transform:none} }
+  @keyframes flash { 0%{background:rgba(0,200,255,0.15)} 100%{background:transparent} }
+
+  #live-clock { color: var(--cyan-dim); font-size: 0.82rem; letter-spacing: 0.05em; }
+  #next-refresh { font-size: 0.62rem; color: var(--text-muted); }
+
+  .btn {
+    padding: 7px 16px; border: none; border-radius: 1px; cursor: pointer;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.08em; transition: all 0.2s;
   }
-
-  .status-dot.red { background: var(--red); box-shadow: var(--glow-red); }
-
-  @keyframes pulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.85); }
-  }
-
-  #live-clock { color: var(--cyan-dim); font-size: 0.85rem; }
+  .btn-scan { background: rgba(0,200,255,0.1); color: var(--cyan); border: 1px solid var(--border-hot); }
+  .btn-scan:hover { background: rgba(0,200,255,0.2); box-shadow: var(--glow-cyan); }
+  .btn-scan:disabled { opacity: 0.4; cursor: not-allowed; }
 
   /* ── ALERT BANNER ── */
   #alert-banner {
-    display: none;
-    background: linear-gradient(90deg, rgba(255,60,90,0.15), rgba(255,60,90,0.05));
-    border-bottom: 1px solid var(--red-dim);
-    padding: 10px 32px;
-    font-size: 0.8rem;
-    color: var(--red);
-    animation: slideDown 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: none; flex-direction: row; align-items: center; gap: 12px;
+    padding: 9px 32px; font-size: 0.78rem; color: var(--red);
+    background: linear-gradient(90deg, rgba(255,60,90,0.15), rgba(255,60,90,0.04));
+    border-bottom: 1px solid var(--red-dim); animation: slideDown 0.3s ease;
   }
+  .alert-icon { animation: blink 0.8s infinite; }
 
-  @keyframes slideDown { from { transform: translateY(-100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
-
-  .alert-icon { font-size: 1rem; animation: blink 0.8s infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  /* ── DATA FLASH on update ── */
+  .data-flash { animation: flash 0.6s ease-out; }
 
   /* ── LAYOUT ── */
-  .app { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 61px); }
+  .app { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 60px); }
 
   /* ── SIDEBAR ── */
   nav {
-    background: var(--bg-1);
-    border-right: 1px solid var(--border);
-    padding: 24px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    background: var(--bg-1); border-right: 1px solid var(--border);
+    padding: 20px 0; display: flex; flex-direction: column; gap: 3px;
   }
-
-  .nav-section {
-    padding: 6px 20px 4px;
-    font-size: 0.6rem;
-    color: var(--text-muted);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-top: 12px;
-  }
-
+  .nav-section { padding: 6px 20px 3px; font-size: 0.58rem; color: var(--text-muted); letter-spacing: 0.22em; text-transform: uppercase; margin-top: 10px; }
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    transition: all 0.2s;
-    border-left: 2px solid transparent;
-    letter-spacing: 0.05em;
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 20px; cursor: pointer; color: var(--text-secondary);
+    font-size: 0.78rem; transition: all 0.18s; border-left: 2px solid transparent; letter-spacing: 0.04em;
   }
-
   .nav-item:hover { color: var(--text-primary); background: rgba(0,200,255,0.05); }
-  .nav-item.active {
-    color: var(--cyan);
-    background: rgba(0,200,255,0.08);
-    border-left-color: var(--cyan);
-    text-shadow: 0 0 8px rgba(0,200,255,0.4);
-  }
-
-  .nav-item .icon { font-size: 1rem; width: 20px; text-align: center; }
-
-  .nav-badge {
-    margin-left: auto;
-    background: var(--red);
-    color: white;
-    font-size: 0.6rem;
-    padding: 1px 6px;
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-  }
+  .nav-item.active { color: var(--cyan); background: rgba(0,200,255,0.08); border-left-color: var(--cyan); text-shadow: 0 0 8px rgba(0,200,255,0.4); }
+  .nav-item .icon { font-size: 0.9rem; width: 18px; text-align: center; }
+  .nav-badge { margin-left: auto; background: var(--red); color: #fff; font-size: 0.58rem; padding: 1px 5px; border-radius: 8px; font-family: 'Inter', sans-serif; min-width: 18px; text-align: center; }
+  .nav-badge.warn { background: var(--yellow); color: #000; }
 
   /* ── MAIN ── */
-  main { padding: 28px 32px; overflow-y: auto; }
-
-  /* ── PAGES ── */
+  main { padding: 24px 28px; overflow-y: auto; }
   .page { display: none; }
   .page.active { display: block; }
 
-  /* ── SECTION HEADER ── */
   .section-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--cyan-dim);
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 700;
+    color: var(--cyan-dim); letter-spacing: 0.25em; text-transform: uppercase;
+    margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
   }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+  .section-subtitle { font-size: 0.65rem; color: var(--text-muted); margin-left: 8px; font-family: 'Share Tech Mono'; font-weight: 400; }
 
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--border), transparent);
-  }
-
-  /* ── STAT CARDS ── */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-
+  /* ── STATS ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
   .stat-card {
-    background: var(--bg-1);
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s;
+    background: var(--bg-1); border: 1px solid var(--border); border-radius: 2px;
+    padding: 18px 16px; position: relative; overflow: hidden; transition: border-color 0.3s;
   }
-
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--cyan);
-  }
-
+  .stat-card::before { content: ''; position: absolute; top:0; left:0; right:0; height:2px; background: var(--cyan); }
   .stat-card.danger::before { background: var(--red); }
   .stat-card.warning::before { background: var(--yellow); }
   .stat-card.success::before { background: var(--green); }
-
-  .stat-card:hover { border-color: var(--border-hot); box-shadow: var(--glow-cyan); }
-
-  .stat-label { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
-  .stat-value { font-family: 'Orbitron', monospace; font-size: 2rem; font-weight: 700; color: var(--cyan); }
-  .stat-card.danger .stat-value { color: var(--red); }
+  .stat-card:hover { border-color: var(--border-hot); }
+  .stat-label { font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 7px; }
+  .stat-value { font-family: 'Orbitron', monospace; font-size: 1.9rem; font-weight: 700; color: var(--cyan); line-height: 1; }
+  .stat-card.danger  .stat-value { color: var(--red); }
   .stat-card.warning .stat-value { color: var(--yellow); }
   .stat-card.success .stat-value { color: var(--green); }
-  .stat-sub { font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px; }
+  .stat-sub { font-size: 0.65rem; color: var(--text-secondary); margin-top: 5px; }
 
   /* ── PANELS ── */
-  .panel {
-    background: var(--bg-1);
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-
+  .panel { background: var(--bg-1); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 18px; }
   .panel-header {
-    padding: 12px 18px;
-    background: var(--bg-2);
-    border-bottom: 1px solid var(--border);
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 10px 16px; background: var(--bg-2); border-bottom: 1px solid var(--border);
+    font-size: 0.67rem; color: var(--text-secondary); letter-spacing: 0.15em; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: space-between;
   }
+  .panel-header .ph-right { display: flex; align-items: center; gap: 12px; }
+  .panel-body { padding: 14px 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+  .chart-wrap { position: relative; height: 175px; }
 
-  .panel-body { padding: 16px 18px; }
-
-  /* ── GRID 2-COL ── */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-
-  /* ── CHART CANVAS ── */
-  .chart-wrap { position: relative; height: 180px; }
-  canvas { width: 100% !important; }
-
-  /* ── PROCESS TABLE ── */
-  .data-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-  .data-table th {
-    text-align: left;
-    padding: 8px 12px;
-    color: var(--text-muted);
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .data-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(0,200,255,0.04);
-    color: var(--text-primary);
-    font-size: 0.75rem;
-    transition: background 0.15s;
-  }
-
+  /* ── TABLES ── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.73rem; }
+  .data-table th { text-align: left; padding: 8px 12px; color: var(--text-muted); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 9px 12px; border-bottom: 1px solid rgba(0,200,255,0.04); color: var(--text-primary); transition: background 0.12s; }
   .data-table tr:hover td { background: rgba(0,200,255,0.04); }
   .data-table tr.threat td { color: var(--red); }
-  .data-table tr.quarantined td { color: var(--yellow); opacity: 0.7; text-decoration: line-through; }
+  .data-table tr.new-row td { animation: flash 0.8s ease-out; }
 
-  .badge {
-    padding: 2px 8px;
-    border-radius: 2px;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    font-weight: 600;
-  }
-
-  .badge-safe { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.3); }
-  .badge-threat { background: rgba(255,60,90,0.1); color: var(--red); border: 1px solid rgba(255,60,90,0.3); }
-  .badge-warn { background: rgba(255,215,0,0.1); color: var(--yellow); border: 1px solid rgba(255,215,0,0.3); }
-  .badge-quar { background: rgba(255,140,0,0.1); color: #ff8c00; border: 1px solid rgba(255,140,0,0.3); }
+  /* ── BADGES ── */
+  .badge { padding: 2px 7px; border-radius: 2px; font-size: 0.59rem; letter-spacing: 0.1em; font-weight: 600; }
+  .badge-safe    { background: rgba(0,255,157,0.1);  color: var(--green);  border: 1px solid rgba(0,255,157,0.3); }
+  .badge-threat  { background: rgba(255,60,90,0.1);  color: var(--red);    border: 1px solid rgba(255,60,90,0.3); }
+  .badge-warn    { background: rgba(255,215,0,0.1);  color: var(--yellow); border: 1px solid rgba(255,215,0,0.3); }
+  .badge-quar    { background: rgba(255,140,0,0.1);  color: #ff8c00;       border: 1px solid rgba(255,140,0,0.3); }
+  .badge-info    { background: rgba(0,200,255,0.1);  color: var(--cyan);   border: 1px solid var(--border); }
 
   /* ── LIVE LOG ── */
   #live-log {
-    height: 220px;
-    overflow-y: auto;
-    background: var(--bg-0);
-    border: 1px solid var(--border);
-    padding: 10px;
-    font-size: 0.72rem;
-    line-height: 1.8;
+    height: 200px; overflow-y: auto; background: var(--bg-0); border: 1px solid var(--border);
+    padding: 10px; font-size: 0.7rem; line-height: 1.85;
   }
-
-  #live-log::-webkit-scrollbar { width: 4px; }
-  #live-log::-webkit-scrollbar-track { background: transparent; }
-  #live-log::-webkit-scrollbar-thumb { background: var(--border-hot); border-radius: 2px; }
-
+  #live-log::-webkit-scrollbar { width: 3px; }
+  #live-log::-webkit-scrollbar-thumb { background: var(--border-hot); }
   .log-line { display: block; }
-  .log-line .ts { color: var(--text-muted); }
-  .log-line.info .msg { color: var(--cyan-dim); }
-  .log-line.warn .msg { color: var(--yellow); }
-  .log-line.threat .msg { color: var(--red); }
-  .log-line.ok .msg { color: var(--green); }
+  .log-line .ts { color: var(--text-muted); user-select: none; }
+  .log-line.info   .msg { color: var(--cyan-dim); }
+  .log-line.ok     .msg { color: var(--green); }
+  .log-line.warn   .msg { color: var(--yellow); }
+  .log-line.threat .msg { color: var(--red); font-weight: bold; }
+  .log-line.fetch  .msg { color: rgba(0,200,255,0.4); font-style: italic; }
+
+  /* ── SCAN BAR ── */
+  .scan-bar { height: 3px; background: var(--bg-3); border-radius: 2px; overflow: hidden; margin: 8px 0; }
+  .scan-bar-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--green)); transition: width 0.25s; box-shadow: 0 0 6px rgba(0,200,255,0.5); }
+
+  /* ── PORT CHIPS ── */
+  .port-grid { display: flex; flex-wrap: wrap; gap: 7px; padding: 10px 0; }
+  .port-chip { padding: 3px 9px; border-radius: 2px; font-size: 0.66rem; border: 1px solid; }
+  .port-open       { background: rgba(0,255,157,0.07);  border-color: rgba(0,255,157,0.3);  color: var(--green); }
+  .port-suspicious { background: rgba(255,60,90,0.07);  border-color: rgba(255,60,90,0.3);  color: var(--red);    animation: blink 2.5s infinite; }
+  .port-common     { background: rgba(0,200,255,0.05);  border-color: var(--border);         color: var(--cyan-dim); }
+
+  /* ── ALERT FEED ── */
+  .alert-item { display: flex; gap: 10px; padding: 11px 14px; border-bottom: 1px solid var(--border); align-items: flex-start; animation: fadeIn 0.3s ease; }
+  .alert-severity { width: 3px; border-radius: 2px; align-self: stretch; min-height: 28px; flex-shrink: 0; }
+  .sev-critical { background: var(--red); }
+  .sev-high     { background: var(--yellow); }
+  .sev-medium   { background: var(--cyan); }
+  .sev-low      { background: var(--green); }
+  .alert-content { flex: 1; }
+  .alert-title { font-size: 0.78rem; color: var(--text-primary); margin-bottom: 2px; }
+  .alert-meta  { font-size: 0.63rem; color: var(--text-secondary); }
 
   /* ── QUARANTINE ── */
   .quarantine-item {
-    background: rgba(255,140,0,0.05);
-    border: 1px solid rgba(255,140,0,0.2);
-    border-left: 3px solid #ff8c00;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-    border-radius: 1px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
-    align-items: center;
+    background: rgba(255,140,0,0.04); border: 1px solid rgba(255,140,0,0.2);
+    border-left: 3px solid #ff8c00; padding: 13px 15px; margin-bottom: 9px;
+    display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center;
   }
+  .q-name   { color: var(--yellow); font-family: 'Orbitron', monospace; font-size: 0.73rem; display: flex; align-items: center; gap: 8px; }
+  .q-detail { color: var(--text-secondary); font-size: 0.68rem; margin-top: 3px; }
+  .q-path   { color: var(--text-muted); font-size: 0.62rem; margin-top: 2px; font-family: 'Share Tech Mono'; }
+  .q-actions { display: flex; gap: 7px; }
+  .btn-release { background: rgba(0,255,157,0.08); color: var(--green); border: 1px solid rgba(0,255,157,0.3); }
+  .btn-release:hover { background: rgba(0,255,157,0.18); }
+  .btn-delete  { background: rgba(255,60,90,0.08);  color: var(--red);   border: 1px solid rgba(255,60,90,0.3); }
+  .btn-delete:hover  { background: rgba(255,60,90,0.18); }
 
-  .q-name { color: var(--yellow); font-size: 0.85rem; font-family: 'Orbitron', monospace; font-size: 0.75rem; }
-  .q-detail { color: var(--text-secondary); font-size: 0.7rem; margin-top: 4px; }
-  .q-actions { display: flex; gap: 8px; }
+  /* ── JSON VIEWER ── */
+  #json-log { font-size: 0.69rem; color: var(--cyan-dim); overflow: auto; max-height: 550px; line-height: 1.65; white-space: pre-wrap; }
+  .json-key    { color: var(--cyan); }
+  .json-str    { color: var(--green); }
+  .json-num    { color: var(--yellow); }
+  .json-bool   { color: #ff8c00; }
+  .json-null   { color: var(--text-muted); }
+  .json-threat { color: var(--red); }
 
-  .btn {
-    padding: 6px 14px;
-    border: none;
-    border-radius: 1px;
-    cursor: pointer;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    transition: all 0.2s;
+  /* ── FETCH STATUS ── */
+  .fetch-status {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.63rem; padding: 6px 12px;
+    border-top: 1px solid var(--border); color: var(--text-muted);
   }
+  .fetch-status.success { color: var(--green); }
+  .fetch-status.error   { color: var(--red); }
+  .fetch-status.loading { color: var(--yellow); }
 
-  .btn-release { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.3); }
-  .btn-release:hover { background: rgba(0,255,157,0.2); box-shadow: var(--glow-green); }
-  .btn-delete { background: rgba(255,60,90,0.1); color: var(--red); border: 1px solid rgba(255,60,90,0.3); }
-  .btn-delete:hover { background: rgba(255,60,90,0.2); box-shadow: var(--glow-red); }
-  .btn-scan { background: rgba(0,200,255,0.1); color: var(--cyan); border: 1px solid var(--border-hot); padding: 8px 20px; }
-  .btn-scan:hover { background: rgba(0,200,255,0.2); box-shadow: var(--glow-cyan); }
+  /* ── THREAT SCORE RING ── */
+  .threat-score-wrap { display: flex; align-items: center; justify-content: center; padding: 12px 0; gap: 20px; }
+  .threat-ring { position: relative; width: 100px; height: 100px; }
+  .threat-ring svg { transform: rotate(-90deg); }
+  .threat-ring-val { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .threat-ring-val .num { font-family: 'Orbitron', monospace; font-size: 1.6rem; font-weight: 700; color: var(--red); }
+  .threat-ring-val .lbl { font-size: 0.55rem; color: var(--text-muted); letter-spacing: 0.15em; }
+  .threat-ring-info { display: flex; flex-direction: column; gap: 8px; }
+  .tri-row { display: flex; align-items: center; gap: 8px; font-size: 0.72rem; }
+  .tri-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-  /* ── ALERT FEED ── */
-  .alert-item {
-    display: flex;
-    gap: 12px;
-    padding: 12px;
-    border-bottom: 1px solid var(--border);
-    align-items: flex-start;
-    animation: fadeIn 0.3s ease;
-  }
+  /* ── TIMELINE ── */
+  .scan-timeline { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; }
+  .tl-entry { display: flex; gap: 12px; align-items: flex-start; font-size: 0.7rem; }
+  .tl-time  { color: var(--text-muted); width: 65px; flex-shrink: 0; }
+  .tl-dot   { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+  .tl-msg   { color: var(--text-secondary); }
 
-  @keyframes fadeIn { from { opacity:0; transform: translateX(-8px); } to { opacity:1; transform:none; } }
+  /* ── SETTINGS TOGGLE ── */
+  .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.75rem; }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle { position: relative; width: 36px; height: 18px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider { position: absolute; inset: 0; background: var(--bg-3); border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
+  .toggle-slider::before { content: ''; position: absolute; width: 12px; height: 12px; left: 2px; top: 2px; background: var(--text-muted); transition: 0.2s; }
+  input:checked + .toggle-slider { background: rgba(0,200,255,0.15); border-color: var(--cyan); }
+  input:checked + .toggle-slider::before { transform: translateX(18px); background: var(--cyan); box-shadow: var(--glow-cyan); }
 
-  .alert-severity {
-    width: 4px;
-    border-radius: 2px;
-    align-self: stretch;
-    min-height: 30px;
-    flex-shrink: 0;
-  }
-
-  .sev-critical { background: var(--red); }
-  .sev-high { background: var(--yellow); }
-  .sev-medium { background: var(--cyan); }
-  .sev-low { background: var(--green); }
-
-  .alert-content { flex: 1; }
-  .alert-title { font-size: 0.8rem; color: var(--text-primary); margin-bottom: 2px; }
-  .alert-meta { font-size: 0.65rem; color: var(--text-secondary); }
-
-  /* ── SCAN PROGRESS ── */
-  .scan-bar {
-    height: 4px;
-    background: var(--bg-3);
-    border-radius: 2px;
-    overflow: hidden;
-    margin: 8px 0;
-  }
-
-  .scan-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--cyan), var(--green));
-    border-radius: 2px;
-    transition: width 0.3s;
-    box-shadow: 0 0 8px rgba(0,200,255,0.5);
-  }
-
-  /* ── PORT MAP ── */
-  .port-grid { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 0; }
-  .port-chip {
-    padding: 4px 10px;
-    border-radius: 2px;
-    font-size: 0.68rem;
-    border: 1px solid;
-  }
-
-  .port-open { background: rgba(0,255,157,0.07); border-color: rgba(0,255,157,0.3); color: var(--green); }
-  .port-suspicious { background: rgba(255,60,90,0.07); border-color: rgba(255,60,90,0.3); color: var(--red); animation: blink 2s infinite; }
-  .port-common { background: rgba(0,200,255,0.07); border-color: var(--border); color: var(--cyan-dim); }
-
-  /* ── TOOLTIP ── */
-  [data-tip] { position: relative; cursor: help; }
-  [data-tip]:hover::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg-3);
-    border: 1px solid var(--border-hot);
-    color: var(--text-primary);
-    font-size: 0.65rem;
-    padding: 4px 8px;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 200;
-  }
-
-  /* ── SCROLLBAR GLOBAL ── */
-  main::-webkit-scrollbar { width: 4px; }
-  main::-webkit-scrollbar-track { background: transparent; }
+  /* ── SCROLLBARS ── */
+  main::-webkit-scrollbar { width: 3px; }
   main::-webkit-scrollbar-thumb { background: var(--border); }
-
-  /* ── MINI SPARKLINE ── */
-  .sparkline-wrap { height: 40px; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">VAX<span>INX</span> · NETGUARD</div>
-  <div class="header-meta">
-    <span><span class="status-dot"></span>SCANNER ACTIVE</span>
+  <div>
+    <div class="logo">VAX<span>INX</span> · NETGUARD<sub>PHASE 2 — REAL DATA INJECTION</sub></div>
+  </div>
+  <div class="header-right">
+    <div class="data-source-badge mock" id="data-source-badge">
+      <span class="status-dot dot-yellow"></span>
+      <span id="data-source-label">MOCK DATA</span>
+    </div>
+    <span id="next-refresh">next refresh: —</span>
     <span id="live-clock">--:--:--</span>
-    <button class="btn btn-scan" onclick="runScan()">▶ RUN SCAN</button>
+    <button class="btn btn-scan" id="scan-btn" onclick="runScan()">▶ SCAN NOW</button>
   </div>
 </header>
 
 <div id="alert-banner">
   <span class="alert-icon">⚠</span>
-  <span id="alert-banner-text">THREAT DETECTED — Suspicious process on port 4444</span>
-  <span style="margin-left:auto;cursor:pointer;color:var(--text-secondary)" onclick="this.parentElement.style.display='none'">✕</span>
+  <span id="alert-banner-text">THREAT DETECTED</span>
+  <span style="margin-left:auto;cursor:pointer;opacity:0.5" onclick="closeBanner()">✕</span>
 </div>
 
 <div class="app">
-  <!-- SIDEBAR -->
   <nav>
     <div class="nav-section">Monitor</div>
     <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">◈</span>Dashboard</div>
-    <div class="nav-item" onclick="showPage('alerts',this)"><span class="icon">⚡</span>Live Alerts <span class="nav-badge" id="alert-count">3</span></div>
+    <div class="nav-item" onclick="showPage('alerts',this)"><span class="icon">⚡</span>Live Alerts <span class="nav-badge" id="alert-count">0</span></div>
 
     <div class="nav-section">Analysis</div>
     <div class="nav-item" onclick="showPage('processes',this)"><span class="icon">⬡</span>Processes</div>
@@ -497,81 +331,106 @@
     <div class="nav-item" onclick="showPage('network',this)"><span class="icon">⬢</span>Network Traffic</div>
 
     <div class="nav-section">Response</div>
-    <div class="nav-item" onclick="showPage('quarantine',this)"><span class="icon">⊘</span>Quarantine <span class="nav-badge" id="q-count">2</span></div>
+    <div class="nav-item" onclick="showPage('quarantine',this)"><span class="icon">⊘</span>Quarantine <span class="nav-badge warn" id="q-count">0</span></div>
     <div class="nav-item" onclick="showPage('logs',this)"><span class="icon">≡</span>JSON Logs</div>
 
     <div class="nav-section">System</div>
     <div class="nav-item" onclick="showPage('settings',this)"><span class="icon">⚙</span>Settings</div>
   </nav>
 
-  <!-- MAIN -->
   <main>
 
-    <!-- ── DASHBOARD ── -->
+    <!-- ══════════════════ DASHBOARD ══════════════════ -->
     <div class="page active" id="page-dashboard">
-      <div class="section-title">System Overview</div>
+      <div class="section-title">System Overview <span class="section-subtitle" id="scan-host">— loading…</span></div>
 
       <div class="stats-grid">
         <div class="stat-card success">
           <div class="stat-label">Processes Scanned</div>
-          <div class="stat-value" id="s-proc">0</div>
-          <div class="stat-sub">↑ updated live</div>
+          <div class="stat-value" id="s-proc">—</div>
+          <div class="stat-sub" id="s-proc-sub">awaiting data</div>
         </div>
         <div class="stat-card danger">
           <div class="stat-label">Threats Detected</div>
-          <div class="stat-value" id="s-threat">0</div>
-          <div class="stat-sub">Since last scan</div>
+          <div class="stat-value" id="s-threat">—</div>
+          <div class="stat-sub" id="s-threat-sub">since last scan</div>
         </div>
         <div class="stat-card warning">
           <div class="stat-label">Open Ports</div>
-          <div class="stat-value" id="s-ports">0</div>
-          <div class="stat-sub">Including suspicious</div>
+          <div class="stat-value" id="s-ports">—</div>
+          <div class="stat-sub" id="s-ports-sub">incl. suspicious</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Quarantined</div>
-          <div class="stat-value" id="s-quar">2</div>
-          <div class="stat-sub">Awaiting review</div>
+          <div class="stat-value" id="s-quar">—</div>
+          <div class="stat-sub">awaiting review</div>
         </div>
       </div>
 
-      <!-- Scan progress -->
+      <!-- Scan status panel -->
       <div class="panel">
         <div class="panel-header">
-          <span>Scan Status</span>
-          <span id="scan-status-label" style="color:var(--green)">● IDLE</span>
+          <span>Scan Engine</span>
+          <div class="ph-right">
+            <span id="scan-time-label" style="font-size:0.62rem;color:var(--text-muted)">last scan: —</span>
+            <span id="scan-status-label" style="color:var(--green)">● IDLE</span>
+          </div>
         </div>
         <div class="panel-body">
-          <div style="font-size:0.72rem;color:var(--text-secondary);margin-bottom:6px" id="scan-msg">Last scan completed. No critical threats found.</div>
-          <div class="scan-bar"><div class="scan-bar-fill" id="scan-bar-fill" style="width:100%"></div></div>
-          <div style="font-size:0.65rem;color:var(--text-muted)" id="scan-detail">processes · connections · ports · signatures · behavior</div>
+          <div style="font-size:0.71rem;color:var(--text-secondary);margin-bottom:6px" id="scan-msg">Awaiting first data load from network_report.json…</div>
+          <div class="scan-bar"><div class="scan-bar-fill" id="scan-bar-fill" style="width:0%"></div></div>
+          <div id="scan-stages" style="font-size:0.62rem;color:var(--text-muted)">processes · connections · ports · signatures · behavior</div>
+        </div>
+        <div class="fetch-status" id="fetch-status">
+          <span class="status-dot dot-yellow"></span>
+          <span>Connecting to ../reports/network_report.json…</span>
         </div>
       </div>
 
       <div class="grid-2">
-        <!-- Traffic chart -->
         <div class="panel">
-          <div class="panel-header"><span>Network Traffic (bytes/s)</span></div>
-          <div class="panel-body">
-            <div class="chart-wrap"><canvas id="trafficChart"></canvas></div>
-          </div>
+          <div class="panel-header"><span>Network Traffic (bytes/s)</span><span style="color:var(--green);font-size:0.62rem">● LIVE</span></div>
+          <div class="panel-body"><div class="chart-wrap"><canvas id="trafficChart"></canvas></div></div>
         </div>
-        <!-- Threat breakdown -->
         <div class="panel">
-          <div class="panel-header"><span>Threat Categories</span></div>
+          <div class="panel-header"><span>Threat Score</span></div>
           <div class="panel-body">
-            <div class="chart-wrap"><canvas id="threatChart"></canvas></div>
+            <div class="threat-score-wrap">
+              <div class="threat-ring">
+                <svg viewBox="0 0 100 100" width="100" height="100">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(0,200,255,0.08)" stroke-width="10"/>
+                  <circle id="threat-ring-circle" cx="50" cy="50" r="42" fill="none" stroke="var(--red)" stroke-width="10"
+                    stroke-dasharray="264" stroke-dashoffset="264" stroke-linecap="round" style="transition:stroke-dashoffset 1s ease"/>
+                </svg>
+                <div class="threat-ring-val">
+                  <div class="num" id="threat-score-num">0</div>
+                  <div class="lbl">/ 100</div>
+                </div>
+              </div>
+              <div class="threat-ring-info" id="threat-ring-info">
+                <div class="tri-row"><span class="tri-dot" style="background:var(--red)"></span><span>Critical: <span id="tr-crit">0</span></span></div>
+                <div class="tri-row"><span class="tri-dot" style="background:var(--yellow)"></span><span>High: <span id="tr-high">0</span></span></div>
+                <div class="tri-row"><span class="tri-dot" style="background:var(--cyan)"></span><span>Medium: <span id="tr-med">0</span></span></div>
+                <div class="tri-row"><span class="tri-dot" style="background:var(--green)"></span><span>Low: <span id="tr-low">0</span></span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Recent activity -->
       <div class="panel">
-        <div class="panel-header"><span>Live Activity Log</span><span style="font-size:0.65rem;color:var(--green)">● STREAMING</span></div>
+        <div class="panel-header">
+          <span>Live Activity Log</span>
+          <div class="ph-right">
+            <span style="color:var(--green);font-size:0.62rem">● STREAMING</span>
+            <span style="cursor:pointer;color:var(--text-muted);font-size:0.65rem" onclick="clearLog()">CLR</span>
+          </div>
+        </div>
         <div id="live-log"></div>
       </div>
     </div>
 
-    <!-- ── LIVE ALERTS ── -->
+    <!-- ══════════════════ ALERTS ══════════════════ -->
     <div class="page" id="page-alerts">
       <div class="section-title">Live Alert Feed</div>
       <div class="panel">
@@ -580,144 +439,168 @@
       </div>
     </div>
 
-    <!-- ── PROCESSES ── -->
+    <!-- ══════════════════ PROCESSES ══════════════════ -->
     <div class="page" id="page-processes">
       <div class="section-title">Process Monitor</div>
       <div class="panel">
-        <div class="panel-header"><span>Running Processes</span></div>
-        <div class="panel-body" style="padding:0">
+        <div class="panel-header">
+          <span>Running Processes</span>
+          <span id="proc-count-label" style="font-size:0.62rem;color:var(--text-muted)">— processes</span>
+        </div>
+        <div style="padding:0">
           <table class="data-table">
-            <thead>
-              <tr>
-                <th>PID</th><th>Process</th><th>CPU%</th><th>MEM%</th><th>Connections</th><th>Status</th><th>Action</th>
-              </tr>
-            </thead>
+            <thead><tr><th>PID</th><th>Process</th><th>CPU%</th><th>MEM%</th><th>Conns</th><th>Path</th><th>Status</th><th>Action</th></tr></thead>
             <tbody id="proc-tbody"></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ── PORTS ── -->
+    <!-- ══════════════════ PORTS ══════════════════ -->
     <div class="page" id="page-ports">
-      <div class="section-title">Port & Socket Map</div>
+      <div class="section-title">Port &amp; Socket Map</div>
       <div class="grid-3">
         <div class="panel">
-          <div class="panel-header"><span>Open Ports</span></div>
-          <div class="panel-body">
-            <div class="port-grid" id="port-grid-open"></div>
-          </div>
+          <div class="panel-header"><span>Open Ports</span><span id="ph-open-count" style="font-size:0.62rem;color:var(--green)">0</span></div>
+          <div class="panel-body"><div class="port-grid" id="port-grid-open"></div></div>
         </div>
         <div class="panel">
-          <div class="panel-header"><span>Suspicious Ports</span></div>
-          <div class="panel-body">
-            <div class="port-grid" id="port-grid-sus"></div>
-          </div>
+          <div class="panel-header"><span>⚠ Suspicious</span><span id="ph-sus-count" style="font-size:0.62rem;color:var(--red)">0</span></div>
+          <div class="panel-body"><div class="port-grid" id="port-grid-sus"></div></div>
         </div>
         <div class="panel">
-          <div class="panel-header"><span>Well-Known Ports</span></div>
-          <div class="panel-body">
-            <div class="port-grid" id="port-grid-known"></div>
-          </div>
+          <div class="panel-header"><span>Well-Known</span></div>
+          <div class="panel-body"><div class="port-grid" id="port-grid-known"></div></div>
         </div>
       </div>
       <div class="panel">
-        <div class="panel-header"><span>Socket Connections</span></div>
-        <div class="panel-body" style="padding:0">
+        <div class="panel-header"><span>Active Socket Connections</span></div>
+        <div style="padding:0">
           <table class="data-table">
-            <thead><tr><th>Local</th><th>Remote</th><th>Protocol</th><th>State</th><th>Process</th></tr></thead>
+            <thead><tr><th>Local Addr</th><th>Remote Addr</th><th>Proto</th><th>State</th><th>Process</th><th>Risk</th></tr></thead>
             <tbody id="socket-tbody"></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ── NETWORK ── -->
+    <!-- ══════════════════ NETWORK ══════════════════ -->
     <div class="page" id="page-network">
       <div class="section-title">Network Traffic Analysis</div>
       <div class="panel">
-        <div class="panel-header"><span>Bandwidth Over Time</span></div>
-        <div class="panel-body">
-          <div style="height:240px"><canvas id="bwChart"></canvas></div>
-        </div>
+        <div class="panel-header"><span>Bandwidth Over Time (KB/s)</span></div>
+        <div class="panel-body"><div style="height:230px"><canvas id="bwChart"></canvas></div></div>
       </div>
       <div class="grid-2">
         <div class="panel">
           <div class="panel-header"><span>Top Connections by Volume</span></div>
-          <div class="panel-body" style="padding:0">
+          <div style="padding:0">
             <table class="data-table">
-              <thead><tr><th>Remote IP</th><th>Port</th><th>MB sent</th><th>MB recv</th></tr></thead>
+              <thead><tr><th>Remote IP</th><th>Port</th><th>Service</th><th>MB Sent</th><th>MB Recv</th></tr></thead>
               <tbody id="conn-tbody"></tbody>
             </table>
           </div>
         </div>
         <div class="panel">
-          <div class="panel-header"><span>Protocol Mix</span></div>
-          <div class="panel-body">
-            <div style="height:180px"><canvas id="protoChart"></canvas></div>
-          </div>
+          <div class="panel-header"><span>Protocol Distribution</span></div>
+          <div class="panel-body"><div style="height:175px"><canvas id="protoChart"></canvas></div></div>
         </div>
       </div>
     </div>
 
-    <!-- ── QUARANTINE ── -->
+    <!-- ══════════════════ QUARANTINE ══════════════════ -->
     <div class="page" id="page-quarantine">
       <div class="section-title">Quarantine Viewer</div>
+      <div id="quarantine-empty" class="panel" style="display:none">
+        <div class="panel-body" style="color:var(--green);font-size:0.78rem;text-align:center;padding:32px">✓ No items in quarantine</div>
+      </div>
       <div id="quarantine-list"></div>
     </div>
 
-    <!-- ── LOGS ── -->
+    <!-- ══════════════════ JSON LOGS ══════════════════ -->
     <div class="page" id="page-logs">
       <div class="section-title">JSON Log Viewer</div>
       <div class="panel">
         <div class="panel-header">
           <span>network_report.json</span>
-          <span style="font-size:0.65rem;color:var(--text-secondary)">reports/ · auto-refreshed</span>
+          <div class="ph-right">
+            <span style="font-size:0.62rem;color:var(--text-muted)" id="json-path">../reports/network_report.json</span>
+            <span style="cursor:pointer;font-size:0.65rem;color:var(--cyan-dim)" onclick="refreshData()">↺ RELOAD</span>
+          </div>
         </div>
-        <div class="panel-body">
-          <pre id="json-log" style="font-size:0.7rem;color:var(--cyan-dim);overflow:auto;max-height:600px;line-height:1.6;white-space:pre-wrap;"></pre>
+        <div class="panel-body"><pre id="json-log"></pre></div>
+        <div class="fetch-status" id="json-fetch-status">
+          <span class="status-dot dot-yellow"></span>
+          <span>Loading…</span>
         </div>
       </div>
     </div>
 
-    <!-- ── SETTINGS ── -->
+    <!-- ══════════════════ SETTINGS ══════════════════ -->
     <div class="page" id="page-settings">
-      <div class="section-title">Scanner Configuration</div>
+      <div class="section-title">Configuration</div>
       <div class="grid-2">
         <div class="panel">
-          <div class="panel-header"><span>Scan Targets</span></div>
-          <div class="panel-body" style="display:flex;flex-direction:column;gap:14px">
-            <label style="font-size:0.75rem;display:flex;justify-content:space-between;align-items:center">
-              Process scanning
-              <input type="checkbox" checked style="accent-color:var(--cyan)">
-            </label>
-            <label style="font-size:0.75rem;display:flex;justify-content:space-between;align-items:center">
-              Port enumeration
-              <input type="checkbox" checked style="accent-color:var(--cyan)">
-            </label>
-            <label style="font-size:0.75rem;display:flex;justify-content:space-between;align-items:center">
-              Signature matching
-              <input type="checkbox" checked style="accent-color:var(--cyan)">
-            </label>
-            <label style="font-size:0.75rem;display:flex;justify-content:space-between;align-items:center">
-              Behavioral heuristics
-              <input type="checkbox" style="accent-color:var(--cyan)">
-            </label>
-            <label style="font-size:0.75rem;display:flex;justify-content:space-between;align-items:center">
-              Auto-quarantine threats
-              <input type="checkbox" checked style="accent-color:var(--cyan)">
-            </label>
+          <div class="panel-header"><span>Auto-Refresh</span></div>
+          <div class="panel-body">
+            <div class="toggle-row">
+              <span>Auto-reload network_report.json</span>
+              <label class="toggle"><input type="checkbox" id="toggle-autorefresh" checked onchange="toggleAutoRefresh(this)"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-row" style="margin-top:10px">
+              <span>Refresh interval</span>
+              <select id="refresh-interval" onchange="setRefreshInterval(this.value)" style="background:var(--bg-2);color:var(--cyan-dim);border:1px solid var(--border);padding:4px 8px;font-family:'Share Tech Mono';font-size:0.7rem">
+                <option value="10000">10s</option>
+                <option value="30000" selected>30s</option>
+                <option value="60000">60s</option>
+                <option value="300000">5min</option>
+              </select>
+            </div>
+            <div class="toggle-row">
+              <span>Alert banner on threats</span>
+              <label class="toggle"><input type="checkbox" id="toggle-alerts" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <span>Sound alerts</span>
+              <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><span>Data Source</span></div>
+          <div class="panel-body">
+            <div class="toggle-row">
+              <span>JSON file path</span>
+              <span style="font-size:0.65rem;color:var(--cyan-dim)">../reports/network_report.json</span>
+            </div>
+            <div class="toggle-row">
+              <span>Fallback to mock data</span>
+              <label class="toggle"><input type="checkbox" id="toggle-mock" checked onchange="toggleMock(this)"><span class="toggle-slider"></span></label>
+            </div>
+            <div style="margin-top:16px;font-size:0.68rem;color:var(--text-muted);line-height:1.8">
+              When the JSON file is unreachable (e.g. file:// restriction),<br>
+              the dashboard renders simulated data for UI testing.<br><br>
+              Run <span style="color:var(--cyan)">python netguard.py</span> to generate real data.
+            </div>
           </div>
         </div>
         <div class="panel">
           <div class="panel-header"><span>Safe Process Whitelist</span></div>
           <div class="panel-body">
-            <div style="font-size:0.72rem;color:var(--text-secondary);line-height:2">
-              chrome.exe · msedge.exe · firefox.exe<br>
-              explorer.exe · svchost.exe · python.exe<br>
-              code.exe
+            <div style="font-size:0.71rem;color:var(--text-secondary);line-height:2.1" id="whitelist-display">
+              Loading from scan data…
             </div>
-            <div style="margin-top:12px;font-size:0.7rem;color:var(--text-muted)">Edit in netguard.py → SAFE_PROCESSES</div>
+            <div style="margin-top:10px;font-size:0.63rem;color:var(--text-muted)">Defined in netguard.py → SAFE_PROCESSES</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><span>Scan Targets</span></div>
+          <div class="panel-body">
+            <div class="toggle-row"><span>Process scanning</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><span>Port enumeration</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><span>Signature matching</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><span>Behavioral heuristics</span><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+            <div class="toggle-row"><span>Auto-quarantine on detect</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
           </div>
         </div>
       </div>
@@ -726,12 +609,30 @@
   </main>
 </div>
 
-<!-- Chart.js from CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
+// ═══════════════════════════════════════════════════════
+//  PHASE 2 — REAL DATA INJECTION
+//  Reads from ../reports/network_report.json via fetch()
+//  Falls back to mock data if file unreachable
+// ═══════════════════════════════════════════════════════
+
+const JSON_PATH = '../reports/network_report.json';
+let REPORT = null;         // current loaded report
+let usingMock = false;
+let autoRefreshTimer = null;
+let refreshInterval = 30000;
+let nextRefreshAt = null;
+let scanHistory = [];      // rolling traffic data
+
 // ── CLOCK ──
 function tick() {
-  document.getElementById('live-clock').textContent = new Date().toLocaleTimeString('en-GB');
+  const now = new Date();
+  document.getElementById('live-clock').textContent = now.toLocaleTimeString('en-GB');
+  if (nextRefreshAt) {
+    const secs = Math.max(0, Math.round((nextRefreshAt - Date.now()) / 1000));
+    document.getElementById('next-refresh').textContent = `↺ ${secs}s`;
+  }
 }
 tick(); setInterval(tick, 1000);
 
@@ -743,257 +644,445 @@ function showPage(id, el) {
   el.classList.add('active');
 }
 
-// ── MOCK DATA ──
-const PROCESSES = [
-  { pid: 1234, name: 'chrome.exe',    cpu: 3.2, mem: 8.1, conns: 12, status: 'safe' },
-  { pid: 5678, name: 'python.exe',    cpu: 0.8, mem: 2.4, conns: 1,  status: 'safe' },
-  { pid: 9001, name: 'svchost.exe',   cpu: 0.1, mem: 1.2, conns: 3,  status: 'safe' },
-  { pid: 3344, name: 'netcat.exe',    cpu: 0.5, mem: 0.8, conns: 5,  status: 'threat' },
-  { pid: 7788, name: 'explorer.exe',  cpu: 0.3, mem: 4.1, conns: 0,  status: 'safe' },
-  { pid: 2211, name: 'unknown_srv.exe', cpu: 12.4, mem: 6.3, conns: 28, status: 'threat' },
-  { pid: 4455, name: 'msedge.exe',    cpu: 2.1, mem: 5.8, conns: 9,  status: 'safe' },
-];
+function closeBanner() { document.getElementById('alert-banner').style.display = 'none'; }
+function clearLog() { document.getElementById('live-log').innerHTML = ''; }
 
-const QUARANTINE_DATA = [
-  { name: 'netcat.exe', pid: 3344, reason: 'Reverse shell signature detected · port 4444 outbound', time: '14:22:08', risk: 'CRITICAL' },
-  { name: 'unknown_srv.exe', pid: 2211, reason: 'Excessive outbound connections · high CPU anomaly · unknown origin path', time: '14:19:44', risk: 'HIGH' },
-];
+// ── MOCK REPORT (fallback) ──
+function buildMockReport() {
+  return {
+    scan_time: new Date().toISOString(),
+    scanner_version: "vaxinx-netguard v2.0",
+    host: "REGISLARA-PC",
+    platform: "Windows-10",
+    summary: { total_processes: 47, safe: 44, threats: 2, quarantined: 2, open_ports: 14, suspicious_ports: 3, scan_duration_ms: 1842 },
+    threat_score: { total: 72, critical: 1, high: 1, medium: 1, low: 2 },
+    processes: [
+      { pid: 1234, name: "chrome.exe",      cpu_percent: 3.2,  mem_percent: 8.1,  connections: 12, exe_path: "C:\\Program Files\\Google\\Chrome\\chrome.exe",    status: "safe" },
+      { pid: 5678, name: "python.exe",       cpu_percent: 0.8,  mem_percent: 2.4,  connections: 1,  exe_path: "C:\\Python311\\python.exe",                        status: "safe" },
+      { pid: 9001, name: "svchost.exe",      cpu_percent: 0.1,  mem_percent: 1.2,  connections: 3,  exe_path: "C:\\Windows\\System32\\svchost.exe",               status: "safe" },
+      { pid: 3344, name: "netcat.exe",       cpu_percent: 0.5,  mem_percent: 0.8,  connections: 5,  exe_path: "C:\\Users\\Regis\\AppData\\Local\\Temp\\nc.exe",   status: "threat" },
+      { pid: 7788, name: "explorer.exe",     cpu_percent: 0.3,  mem_percent: 4.1,  connections: 0,  exe_path: "C:\\Windows\\explorer.exe",                        status: "safe" },
+      { pid: 2211, name: "unknown_srv.exe",  cpu_percent: 12.4, mem_percent: 6.3,  connections: 28, exe_path: "C:\\ProgramData\\Sys32\\unknown_srv.exe",          status: "threat" },
+      { pid: 4455, name: "msedge.exe",       cpu_percent: 2.1,  mem_percent: 5.8,  connections: 9,  exe_path: "C:\\Program Files (x86)\\Microsoft\\Edge\\msedge.exe", status: "safe" }
+    ],
+    threats: [
+      { pid: 3344, name: "netcat.exe",      risk: "CRITICAL", reason: "Reverse shell signature match · port 4444 outbound · known RAT pattern", action: "quarantined", time: new Date(Date.now()-120000).toISOString() },
+      { pid: 2211, name: "unknown_srv.exe", risk: "HIGH",     reason: "Excessive outbound connections (28) · high CPU anomaly · unsigned binary · unknown path", action: "quarantined", time: new Date(Date.now()-300000).toISOString() }
+    ],
+    alerts: [
+      { severity: "critical", title: "Reverse shell attempt detected",       details: "PID 3344 · netcat.exe · port 4444 outbound",                  time: new Date(Date.now()-120000).toISOString() },
+      { severity: "high",     title: "Anomalous outbound connection spike",  details: "PID 2211 · unknown_srv.exe · 28 simultaneous connections",    time: new Date(Date.now()-300000).toISOString() },
+      { severity: "medium",   title: "Port 1337 opened by unknown process",  details: "PID 2211 · bind socket · no matching service",                time: new Date(Date.now()-540000).toISOString() },
+      { severity: "low",      title: "New process spawned from cmd.exe",     details: "PID 9912 · parent: cmd.exe · path: %TEMP%",                   time: new Date(Date.now()-780000).toISOString() }
+    ],
+    ports: {
+      suspicious: [4444, 1337, 31337],
+      open:       [8080, 3306, 5432, 8443],
+      known:      [80, 443, 53, 22, 25, 3389, 445]
+    },
+    connections: [
+      { remote_ip: "192.168.1.45",  remote_port: 9001, service: "C2?",   local_addr: "0.0.0.0:4444", protocol: "TCP", state: "ESTABLISHED", process: "netcat.exe",      mb_sent: 3.2, mb_recv: 0.4, risk: "critical" },
+      { remote_ip: "52.213.110.9",  remote_port: 443,  service: "HTTPS", local_addr: "192.168.1.10:52441", protocol: "TCP", state: "ESTABLISHED", process: "chrome.exe",  mb_sent: 1.24, mb_recv: 32.0, risk: "safe" },
+      { remote_ip: "104.21.44.12",  remote_port: 443,  service: "HTTPS", local_addr: "192.168.1.10:53120", protocol: "TCP", state: "ESTABLISHED", process: "msedge.exe",  mb_sent: 0.88, mb_recv: 15.0, risk: "safe" },
+      { remote_ip: "8.8.8.8",       remote_port: 53,   service: "DNS",   local_addr: "192.168.1.10:49210", protocol: "UDP", state: "—",           process: "svchost.exe", mb_sent: 0.02, mb_recv: 0.02, risk: "safe" }
+    ],
+    safe_processes: ["chrome.exe","msedge.exe","firefox.exe","explorer.exe","svchost.exe","python.exe","code.exe"],
+    _source: "mock"
+  };
+}
 
-const ALERTS_DATA = [
-  { sev: 'critical', title: 'Reverse shell attempt detected', meta: '14:22:08 · PID 3344 · netcat.exe · port 4444', },
-  { sev: 'high',     title: 'Anomalous outbound connection spike', meta: '14:19:44 · PID 2211 · unknown_srv.exe · 28 connections', },
-  { sev: 'medium',   title: 'Port 1337 opened by unknown process', meta: '14:15:03 · PID 2211 · bind socket', },
-  { sev: 'low',      title: 'New process spawned from cmd.exe', meta: '14:08:21 · PID 9912 · parent: cmd.exe', },
-];
+// ── FETCH REAL DATA ──
+async function fetchReport() {
+  setFetchStatus('loading', 'Fetching network_report.json…');
+  addLog('fetch', `Requesting ${JSON_PATH}`);
+  try {
+    const resp = await fetch(JSON_PATH + '?t=' + Date.now());
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    data._source = 'live';
+    usingMock = false;
+    REPORT = data;
+    setFetchStatus('success', `Loaded live data · ${new Date().toLocaleTimeString('en-GB')}`);
+    addLog('ok', 'network_report.json loaded successfully — LIVE DATA ACTIVE');
+    updateDataSourceBadge('live');
+    return data;
+  } catch (err) {
+    // fallback to mock
+    const useMockSetting = document.getElementById('toggle-mock')?.checked ?? true;
+    if (useMockSetting) {
+      usingMock = true;
+      const mock = buildMockReport();
+      REPORT = mock;
+      setFetchStatus('error', `File unreachable — using mock data (${err.message})`);
+      addLog('warn', `fetch() failed: ${err.message} → falling back to mock data`);
+      updateDataSourceBadge('mock');
+      return mock;
+    } else {
+      setFetchStatus('error', `Failed: ${err.message} · mock data disabled`);
+      addLog('threat', `fetch() failed and mock fallback is disabled`);
+      updateDataSourceBadge('error');
+      return null;
+    }
+  }
+}
+
+function setFetchStatus(type, msg) {
+  const el = document.getElementById('fetch-status');
+  const el2 = document.getElementById('json-fetch-status');
+  const dotClass = { loading:'dot-yellow', success:'dot-green', error:'dot-red' }[type];
+  const html = `<span class="status-dot ${dotClass}"></span><span>${msg}</span>`;
+  if (el)  { el.innerHTML = html;  el.className = `fetch-status ${type}`; }
+  if (el2) { el2.innerHTML = html; el2.className = `fetch-status ${type}`; }
+}
+
+function updateDataSourceBadge(state) {
+  const badge = document.getElementById('data-source-badge');
+  const label = document.getElementById('data-source-label');
+  badge.className = 'data-source-badge ' + state;
+  const dot = badge.querySelector('.status-dot');
+  dot.className = 'status-dot ' + (state==='live'?'dot-green':state==='mock'?'dot-yellow':'dot-red');
+  label.textContent = state === 'live' ? 'LIVE DATA' : state === 'mock' ? 'MOCK DATA' : 'NO DATA';
+}
+
+// ── INJECT DATA INTO DASHBOARD ──
+function injectReport(r) {
+  if (!r) return;
+
+  // Stats
+  flashUpdate('s-proc',   r.summary.total_processes);
+  flashUpdate('s-threat', r.summary.threats);
+  flashUpdate('s-ports',  (r.ports.open.length + r.ports.suspicious.length + r.ports.known.length));
+  flashUpdate('s-quar',   r.summary.quarantined);
+  document.getElementById('s-threat-sub').textContent = `${r.summary.safe} safe, ${r.summary.threats} flagged`;
+  document.getElementById('s-ports-sub').textContent  = `${r.ports.suspicious.length} suspicious`;
+  document.getElementById('s-proc-sub').textContent   = `${r.summary.scan_duration_ms}ms scan`;
+
+  // Header
+  document.getElementById('scan-host').textContent = `— ${r.host} · ${r.platform || ''} · v${r.scanner_version || '2.0'}`;
+  document.getElementById('scan-time-label').textContent = `last scan: ${fmtTime(r.scan_time)}`;
+
+  // Threat ring
+  const ts = r.threat_score || {};
+  const score = ts.total || 0;
+  document.getElementById('threat-score-num').textContent = score;
+  const circ = document.getElementById('threat-ring-circle');
+  const offset = 264 - (score / 100 * 264);
+  circ.style.strokeDashoffset = offset;
+  circ.style.stroke = score > 60 ? 'var(--red)' : score > 30 ? 'var(--yellow)' : 'var(--green)';
+  document.getElementById('tr-crit').textContent = ts.critical || 0;
+  document.getElementById('tr-high').textContent = ts.high || 0;
+  document.getElementById('tr-med').textContent  = ts.medium || 0;
+  document.getElementById('tr-low').textContent  = ts.low || 0;
+
+  // Nav badges
+  document.getElementById('alert-count').textContent = (r.alerts || []).length;
+  document.getElementById('q-count').textContent     = (r.threats || []).length;
+
+  // Alert banner
+  const critAlerts = (r.alerts || []).filter(a => a.severity === 'critical' || a.severity === 'high');
+  if (critAlerts.length && document.getElementById('toggle-alerts')?.checked) {
+    document.getElementById('alert-banner-text').textContent =
+      `⚠ ${critAlerts.length} HIGH+ THREAT(S) — ${critAlerts[0].title}`;
+    document.getElementById('alert-banner').style.display = 'flex';
+  }
+
+  // Scan status
+  document.getElementById('scan-status-label').textContent = '● COMPLETE';
+  document.getElementById('scan-status-label').style.color = r.summary.threats > 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('scan-msg').textContent =
+    r.summary.threats > 0
+      ? `${r.summary.threats} threat(s) detected — ${r.summary.quarantined} quarantined.`
+      : `Clean scan — ${r.summary.total_processes} processes checked, no threats found.`;
+  document.getElementById('scan-bar-fill').style.width = '100%';
+
+  // Render all tabs
+  renderProcesses(r.processes || []);
+  renderAlerts(r.alerts || []);
+  renderQuarantine(r.threats || []);
+  renderPorts(r.ports);
+  renderSockets(r.connections || []);
+  renderConnections(r.connections || []);
+  renderJsonLog(r);
+  renderWhitelist(r.safe_processes || []);
+
+  // Log update
+  addLog('ok', `Dashboard updated · ${r.summary.total_processes} processes · ${r.summary.threats} threats · source: ${r._source}`);
+}
+
+function flashUpdate(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = val;
+  el.closest('.stat-card')?.classList.add('data-flash');
+  setTimeout(() => el.closest('.stat-card')?.classList.remove('data-flash'), 600);
+}
+
+function fmtTime(iso) {
+  if (!iso) return '—';
+  try { return new Date(iso).toLocaleTimeString('en-GB'); } catch { return iso; }
+}
 
 // ── RENDER PROCESSES ──
-function renderProcesses() {
+function renderProcesses(procs) {
   const tbody = document.getElementById('proc-tbody');
-  tbody.innerHTML = PROCESSES.map(p => `
+  document.getElementById('proc-count-label').textContent = `${procs.length} processes`;
+  tbody.innerHTML = procs.map(p => `
     <tr class="${p.status === 'threat' ? 'threat' : ''}">
       <td style="color:var(--text-muted)">${p.pid}</td>
       <td>${p.name}</td>
-      <td style="color:${p.cpu > 5 ? 'var(--yellow)' : 'var(--text-secondary)'}">${p.cpu}%</td>
-      <td>${p.mem}%</td>
-      <td style="color:${p.conns > 15 ? 'var(--red)' : 'var(--text-secondary)'}">${p.conns}</td>
+      <td style="color:${p.cpu_percent > 8 ? 'var(--yellow)' : 'var(--text-secondary)'}">${p.cpu_percent?.toFixed(1)}%</td>
+      <td>${p.mem_percent?.toFixed(1)}%</td>
+      <td style="color:${p.connections > 15 ? 'var(--red)' : 'var(--text-secondary)'}">${p.connections}</td>
+      <td style="color:var(--text-muted);font-size:0.62rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${p.exe_path||''}">${p.exe_path || '—'}</td>
       <td><span class="badge badge-${p.status === 'threat' ? 'threat' : 'safe'}">${p.status.toUpperCase()}</span></td>
-      <td>${p.status === 'threat' ? '<button class="btn btn-delete" onclick="quarantine(this,'+p.pid+')">QUARANTINE</button>' : '—'}</td>
-    </tr>
-  `).join('');
+      <td>${p.status === 'threat' ? `<button class="btn btn-delete" onclick="doQuarantine(this,${p.pid},'${p.name}')">QUARANTINE</button>` : '—'}</td>
+    </tr>`).join('');
 }
 
-function quarantine(btn, pid) {
-  btn.closest('tr').classList.add('quarantined');
-  btn.textContent = 'QUARANTINED';
-  btn.disabled = true;
-  addLog('warn', `Process PID ${pid} moved to quarantine`);
+function doQuarantine(btn, pid, name) {
+  btn.closest('tr').style.opacity = '0.4';
+  btn.textContent = '⊘ QUARANTINED'; btn.disabled = true;
+  addLog('warn', `Manual quarantine: ${name} (PID ${pid})`);
 }
 
 // ── RENDER ALERTS ──
-function renderAlerts() {
+function renderAlerts(alerts) {
   const feed = document.getElementById('alert-feed');
-  feed.innerHTML = ALERTS_DATA.map(a => `
-    <div class="alert-item">
-      <div class="alert-severity sev-${a.sev}"></div>
-      <div class="alert-content">
-        <div class="alert-title">${a.title}</div>
-        <div class="alert-meta">${a.meta}</div>
-      </div>
-      <span class="badge badge-${a.sev === 'critical' || a.sev === 'high' ? 'threat' : a.sev === 'medium' ? 'warn' : 'safe'}">${a.sev.toUpperCase()}</span>
-    </div>
-  `).join('');
-  document.getElementById('alert-count').textContent = ALERTS_DATA.length;
+  feed.innerHTML = alerts.length === 0
+    ? '<div style="padding:24px;text-align:center;color:var(--green);font-size:0.78rem">✓ No active alerts</div>'
+    : alerts.map(a => `
+      <div class="alert-item">
+        <div class="alert-severity sev-${a.severity}"></div>
+        <div class="alert-content">
+          <div class="alert-title">${a.title}</div>
+          <div class="alert-meta">${a.details || ''} · ${fmtTime(a.time)}</div>
+        </div>
+        <span class="badge badge-${['critical','high'].includes(a.severity)?'threat':a.severity==='medium'?'warn':'safe'}">${a.severity.toUpperCase()}</span>
+      </div>`).join('');
 }
 
 // ── RENDER QUARANTINE ──
-function renderQuarantine() {
+function renderQuarantine(threats) {
   const el = document.getElementById('quarantine-list');
-  el.innerHTML = QUARANTINE_DATA.map(q => `
+  const empty = document.getElementById('quarantine-empty');
+  if (!threats.length) { empty.style.display = 'block'; el.innerHTML = ''; return; }
+  empty.style.display = 'none';
+  el.innerHTML = threats.map(q => `
     <div class="quarantine-item">
       <div>
         <div class="q-name">⊘ ${q.name} <span class="badge badge-threat">${q.risk}</span></div>
-        <div class="q-detail">PID ${q.pid} · Quarantined at ${q.time}</div>
-        <div class="q-detail" style="margin-top:4px;color:var(--text-muted)">${q.reason}</div>
+        <div class="q-detail">PID ${q.pid} · Quarantined at ${fmtTime(q.time)}</div>
+        <div class="q-detail" style="margin-top:3px">${q.reason}</div>
+        <div class="q-path">Action: ${q.action}</div>
       </div>
       <div class="q-actions">
-        <button class="btn btn-release">RELEASE</button>
-        <button class="btn btn-delete">DELETE</button>
+        <button class="btn btn-release" onclick="addLog('warn','Released: ${q.name}');this.closest('.quarantine-item').style.opacity='0.4'">RELEASE</button>
+        <button class="btn btn-delete"  onclick="addLog('ok','Deleted: ${q.name}');this.closest('.quarantine-item').remove()">DELETE</button>
       </div>
-    </div>
-  `).join('');
-  document.getElementById('q-count').textContent = QUARANTINE_DATA.length;
-  document.getElementById('s-quar').textContent = QUARANTINE_DATA.length;
+    </div>`).join('');
 }
 
 // ── RENDER PORTS ──
-function renderPorts() {
-  const open   = [8080, 3306, 5432, 8443];
-  const sus    = [4444, 1337, 31337];
-  const known  = [80, 443, 53, 22, 25, 3389, 445];
-  document.getElementById('port-grid-open').innerHTML  = open.map(p => `<span class="port-chip port-open" data-tip="Open">${p}</span>`).join('');
-  document.getElementById('port-grid-sus').innerHTML   = sus.map(p  => `<span class="port-chip port-suspicious" data-tip="Suspicious">⚠ ${p}</span>`).join('');
+function renderPorts(ports) {
+  if (!ports) return;
+  const { open=[], suspicious=[], known=[] } = ports;
+  document.getElementById('port-grid-open').innerHTML  = open.map(p => `<span class="port-chip port-open">${p}</span>`).join('');
+  document.getElementById('port-grid-sus').innerHTML   = suspicious.map(p => `<span class="port-chip port-suspicious">⚠ ${p}</span>`).join('');
   document.getElementById('port-grid-known').innerHTML = known.map(p => `<span class="port-chip port-common">${p}</span>`).join('');
-  document.getElementById('s-ports').textContent = open.length + sus.length + known.length;
+  document.getElementById('ph-open-count').textContent = open.length;
+  document.getElementById('ph-sus-count').textContent  = suspicious.length;
+}
 
-  document.getElementById('socket-tbody').innerHTML = [
-    ['0.0.0.0:4444', '192.168.1.45:9001', 'TCP', 'ESTABLISHED', 'netcat.exe'],
-    ['0.0.0.0:8080',  '—',                 'TCP', 'LISTEN',      'python.exe'],
-    ['127.0.0.1:5432','—',                 'TCP', 'LISTEN',      'postgres.exe'],
-    ['192.168.1.10:443','52.213.110.9:443','TCP', 'ESTABLISHED', 'chrome.exe'],
-  ].map(r => `<tr ${r[3]==='ESTABLISHED'&&r[0].includes('4444')?'class="threat"':''}>
-    <td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td>
-    <td><span class="badge badge-${r[3]==='LISTEN'?'warn':r[3]==='ESTABLISHED'&&r[0].includes('4444')?'threat':'safe'}">${r[3]}</span></td>
-    <td>${r[4]}</td>
-  </tr>`).join('');
+// ── RENDER SOCKETS ──
+const RISK_PORT = new Set([4444,1337,31337,9001,6666,6667,4899,5900]);
+function renderSockets(conns) {
+  document.getElementById('socket-tbody').innerHTML = conns.map(c => {
+    const risk = c.risk || (RISK_PORT.has(c.remote_port) ? 'critical' : 'safe');
+    return `<tr class="${risk==='critical'?'threat':''}">
+      <td>${c.local_addr||'—'}</td>
+      <td>${c.remote_ip||'—'}</td>
+      <td><span class="badge badge-info">${c.protocol||'TCP'}</span></td>
+      <td><span class="badge badge-${c.state==='ESTABLISHED'&&risk==='critical'?'threat':c.state==='LISTEN'?'warn':'safe'}">${c.state||'—'}</span></td>
+      <td>${c.process||'—'}</td>
+      <td><span class="badge badge-${risk==='critical'?'threat':risk==='safe'?'safe':'warn'}">${risk.toUpperCase()}</span></td>
+    </tr>`;
+  }).join('');
 }
 
 // ── RENDER CONNECTIONS ──
-function renderConnections() {
-  document.getElementById('conn-tbody').innerHTML = [
-    ['52.213.110.9',   443, 124, 3200],
-    ['104.21.44.12',   443,  88, 1500],
-    ['192.168.1.45',  9001, 320,   44],
-    ['8.8.8.8',         53,   2,    2],
-  ].map(r => `<tr ${r[1]===9001?'class="threat"':''}><td>${r[0]}</td><td>${r[1]}</td><td>${(r[2]/100).toFixed(1)}</td><td>${(r[3]/100).toFixed(1)}</td></tr>`).join('');
+const PORT_NAMES = {80:'HTTP',443:'HTTPS',53:'DNS',22:'SSH',25:'SMTP',3389:'RDP',445:'SMB',4444:'BACKDOOR?',1337:'LEET',9001:'C2?'};
+function renderConnections(conns) {
+  document.getElementById('conn-tbody').innerHTML = conns.map(c => `
+    <tr class="${c.risk==='critical'?'threat':''}">
+      <td>${c.remote_ip}</td>
+      <td>${c.remote_port}</td>
+      <td><span class="badge badge-${c.risk==='critical'?'threat':'info'}">${PORT_NAMES[c.remote_port]||c.service||'?'}</span></td>
+      <td style="color:${c.mb_sent>1?'var(--yellow)':'inherit'}">${c.mb_sent?.toFixed(2)}</td>
+      <td>${c.mb_recv?.toFixed(2)}</td>
+    </tr>`).join('');
 }
 
-// ── RENDER JSON LOG ──
-function renderJsonLog() {
-  const report = {
-    scan_time: new Date().toISOString(),
-    host: "REGISLARA-PC",
-    scanner: "vaxinx-netguard v2.0",
-    summary: { total_processes: 7, threats: 2, quarantined: 2, open_ports: 14 },
-    threats: QUARANTINE_DATA.map(q => ({
-      pid: q.pid, name: q.name, risk: q.risk, reason: q.reason, action: "quarantined"
-    })),
-    safe_processes: PROCESSES.filter(p=>p.status==='safe').map(p=>p.name),
-    ports: { suspicious: [4444,1337,31337], open: [8080,3306,5432,8443], known: [80,443,53,22] }
-  };
-  document.getElementById('json-log').textContent = JSON.stringify(report, null, 2);
+// ── RENDER JSON LOG (syntax highlighted) ──
+function renderJsonLog(r) {
+  const raw = JSON.stringify(r, null, 2);
+  const highlighted = raw
+    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
+      let cls = 'json-num';
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) cls = 'json-key';
+        else if (/threat|CRITICAL|HIGH|malware|suspicious|reverse|shell/i.test(match)) cls = 'json-threat';
+        else cls = 'json-str';
+      } else if (/true|false/.test(match)) cls = 'json-bool';
+      else if (/null/.test(match)) cls = 'json-null';
+      return `<span class="${cls}">${match}</span>`;
+    });
+  document.getElementById('json-log').innerHTML = highlighted;
+}
+
+// ── RENDER WHITELIST ──
+function renderWhitelist(procs) {
+  document.getElementById('whitelist-display').textContent = procs.join(' · ') || '—';
 }
 
 // ── LIVE LOG ──
-const logTypes = ['info','info','info','ok','warn','threat'];
-const logMessages = {
-  info:   ['Scanning process list…','Checking port bindings…','Inspecting socket connections…','Loading signature database…'],
-  ok:     ['chrome.exe → SAFE','svchost.exe → SAFE','python.exe → SAFE','explorer.exe → SAFE'],
-  warn:   ['Unusual CPU spike on PID 2211','Port 1337 opened','New outbound connection on 4444'],
-  threat: ['THREAT: netcat.exe reverse shell signature','THREAT: unknown_srv.exe anomalous behavior','ALERT: suspicious bind on port 31337'],
+const LOG_POOL = {
+  info:   ['Enumerating process list…','Checking open ports…','Reading socket table…','Matching signatures…','Resolving remote IPs…'],
+  ok:     ['svchost.exe → SAFE','chrome.exe → SAFE','explorer.exe → SAFE','msedge.exe → SAFE'],
+  warn:   ['Elevated CPU on PID 2211','Unknown port 1337 detected','Outbound connection spike'],
+  threat: ['THREAT: reverse shell pattern matched','ALERT: C2 port 9001 active','THREAT: unsigned binary in %TEMP%'],
+  fetch:  []
 };
 
 function addLog(type, msg) {
   const log = document.getElementById('live-log');
-  const ts = new Date().toLocaleTimeString('en-GB');
-  const prefix = { info:'[INFO]', ok:'[OK]  ', warn:'[WARN]', threat:'[THREAT]' }[type];
+  const ts  = new Date().toLocaleTimeString('en-GB');
+  const prefixes = { info:'[INFO]  ', ok:'[OK]    ', warn:'[WARN]  ', threat:'[THREAT]', fetch:'[FETCH] ' };
   const el = document.createElement('span');
   el.className = `log-line ${type}`;
-  el.innerHTML = `<span class="ts">${ts} </span><span class="msg">${prefix} ${msg}</span>\n`;
+  el.innerHTML = `<span class="ts">${ts} </span><span class="msg">${prefixes[type]||'[LOG]  '} ${msg}</span>\n`;
   log.appendChild(el);
   log.scrollTop = log.scrollHeight;
+  // cap at 200 lines
+  while (log.children.length > 200) log.removeChild(log.firstChild);
 }
 
-let logIdx = 0;
-function streamLog() {
-  const type = logTypes[Math.floor(Math.random() * logTypes.length)];
-  const msgs = logMessages[type];
-  addLog(type, msgs[Math.floor(Math.random() * msgs.length)]);
-  logIdx++;
-  document.getElementById('s-proc').textContent = Math.min(logIdx * 2, 47);
-  document.getElementById('s-threat').textContent = QUARANTINE_DATA.length;
-}
+let logTick = 0;
+setInterval(() => {
+  const types = ['info','info','ok','warn'];
+  const t = types[logTick++ % types.length];
+  const pool = LOG_POOL[t];
+  addLog(t, pool[Math.floor(Math.random() * pool.length)]);
+}, 5000);
 
-// ── SCAN SIMULATION ──
+// ── SCAN SIMULATION (local) ──
 function runScan() {
   const bar = document.getElementById('scan-bar-fill');
   const lbl = document.getElementById('scan-status-label');
   const msg = document.getElementById('scan-msg');
+  const btn = document.getElementById('scan-btn');
+  btn.disabled = true; btn.textContent = '◌ SCANNING…';
   lbl.textContent = '● SCANNING'; lbl.style.color = 'var(--yellow)';
   msg.textContent = 'Scan in progress…';
-  let pct = 0;
   bar.style.width = '0%';
+  let pct = 0;
+  const stages = ['Enumerating processes','Checking ports','Inspecting sockets','Running signatures','Behavior analysis'];
+  let si = 0;
   const iv = setInterval(() => {
-    pct += Math.random() * 12;
+    pct += Math.random() * 14;
     if (pct >= 100) {
       pct = 100; clearInterval(iv);
-      lbl.textContent = '● COMPLETE'; lbl.style.color = 'var(--green)';
-      msg.textContent = 'Scan complete. 2 threats detected and quarantined.';
-      document.getElementById('alert-banner').style.display = 'flex';
+      btn.disabled = false; btn.textContent = '▶ SCAN NOW';
+      refreshData();
     }
-    bar.style.width = Math.min(pct,100) + '%';
-    addLog(pct < 40 ? 'info' : pct < 70 ? 'ok' : pct < 90 ? 'warn' : 'threat',
-      pct < 40 ? 'Enumerating processes…' : pct < 70 ? 'Port scan in progress…' : pct < 90 ? 'Signature matching…' : 'THREAT DETECTED — netcat.exe');
-  }, 200);
+    bar.style.width = Math.min(pct, 100) + '%';
+    const stageIdx = Math.floor(pct / 20);
+    if (stages[stageIdx] && si !== stageIdx) {
+      si = stageIdx;
+      addLog('info', stages[si] + '…');
+      document.getElementById('scan-stages').textContent = stages[si] + '…';
+    }
+  }, 220);
 }
 
-// ── CHART.JS CHARTS ──
+// ── CHARTS ──
 Chart.defaults.color = '#5a8aaa';
-Chart.defaults.borderColor = 'rgba(0,200,255,0.08)';
+Chart.defaults.borderColor = 'rgba(0,200,255,0.07)';
 Chart.defaults.font.family = "'Share Tech Mono', monospace";
 Chart.defaults.font.size = 10;
 
-function makeLabels(n) {
-  return Array.from({length:n}, (_,i) => `${i}s`);
-}
-function makeData(n, min, max) {
-  return Array.from({length:n}, () => Math.floor(Math.random()*(max-min)+min));
-}
-
-// Traffic
+// Traffic (live)
 const tCtx = document.getElementById('trafficChart').getContext('2d');
-const trafficData = { labels: makeLabels(20), datasets: [
-  { label: 'In',  data: makeData(20,200,2000), borderColor:'#00ff9d', backgroundColor:'rgba(0,255,157,0.05)', tension:0.4, pointRadius:0, fill:true },
-  { label: 'Out', data: makeData(20,100,1500), borderColor:'#00c8ff', backgroundColor:'rgba(0,200,255,0.05)', tension:0.4, pointRadius:0, fill:true },
-]};
-const trafficChart = new Chart(tCtx, { type:'line', data: trafficData, options:{ animation:false, plugins:{ legend:{ labels:{ boxWidth:10 } } }, scales:{ y:{ beginAtZero:true }, x:{ ticks:{ maxTicksLimit:5 } } } } });
-
-// Threat doughnut
-const thCtx = document.getElementById('threatChart').getContext('2d');
-new Chart(thCtx, { type:'doughnut', data:{
-  labels: ['Reverse Shell','Anomalous Conn','Unknown Process','Port Abuse'],
-  datasets:[{ data:[1,1,0,1], backgroundColor:['rgba(255,60,90,0.7)','rgba(255,215,0,0.7)','rgba(0,200,255,0.5)','rgba(255,140,0,0.7)'], borderWidth:0 }]
-}, options:{ plugins:{ legend:{ position:'right', labels:{ boxWidth:8, padding:10 } } }, cutout:'65%' } });
-
-// Bandwidth
-const bwCtx = document.getElementById('bwChart').getContext('2d');
-new Chart(bwCtx, { type:'bar', data:{
-  labels: ['10:00','10:15','10:30','10:45','11:00','11:15','11:30','11:45','12:00','12:15'],
-  datasets:[
-    { label:'In',  data:[420,610,520,780,1200,3200,890,540,620,710], backgroundColor:'rgba(0,255,157,0.4)' },
-    { label:'Out', data:[200,300,280,400, 600,2800,450,280,310,380], backgroundColor:'rgba(0,200,255,0.4)' },
-  ]
-}, options:{ plugins:{ legend:{ labels:{ boxWidth:10 } } }, scales:{ x:{ stacked:false }, y:{ beginAtZero:true } } } });
-
-// Protocol pie
-const prCtx = document.getElementById('protoChart').getContext('2d');
-new Chart(prCtx, { type:'pie', data:{
-  labels: ['HTTPS','HTTP','DNS','SSH','Other'],
-  datasets:[{ data:[65,12,8,4,11], backgroundColor:['rgba(0,200,255,0.7)','rgba(0,200,255,0.4)','rgba(0,255,157,0.5)','rgba(255,215,0,0.5)','rgba(255,60,90,0.4)'], borderWidth:0 }]
-}, options:{ plugins:{ legend:{ position:'right', labels:{ boxWidth:8, padding:8 } } } } });
-
-// Live traffic update
+const trafficLabels = Array.from({length:20}, () => '');
+const trafficChart = new Chart(tCtx, {
+  type: 'line',
+  data: { labels: trafficLabels, datasets: [
+    { label:'In',  data: Array.from({length:20}, () => Math.random()*2000+200), borderColor:'#00ff9d', backgroundColor:'rgba(0,255,157,0.05)', tension:0.4, pointRadius:0, fill:true },
+    { label:'Out', data: Array.from({length:20}, () => Math.random()*1500+100), borderColor:'#00c8ff', backgroundColor:'rgba(0,200,255,0.05)', tension:0.4, pointRadius:0, fill:true },
+  ]},
+  options: { animation:false, plugins:{ legend:{ labels:{ boxWidth:8 } } }, scales:{ y:{ beginAtZero:true }, x:{ ticks:{ maxTicksLimit:4 } } } }
+});
 setInterval(() => {
-  trafficChart.data.labels.push('');
-  trafficChart.data.labels.shift();
-  trafficChart.data.datasets[0].data.push(Math.floor(Math.random()*2000+200));
-  trafficChart.data.datasets[0].data.shift();
-  trafficChart.data.datasets[1].data.push(Math.floor(Math.random()*1500+100));
-  trafficChart.data.datasets[1].data.shift();
+  trafficChart.data.datasets[0].data.push(Math.floor(Math.random()*2000+200)); trafficChart.data.datasets[0].data.shift();
+  trafficChart.data.datasets[1].data.push(Math.floor(Math.random()*1500+100)); trafficChart.data.datasets[1].data.shift();
   trafficChart.update();
 }, 1500);
 
-// ── INIT ──
-renderProcesses();
-renderAlerts();
-renderQuarantine();
-renderPorts();
-renderConnections();
-renderJsonLog();
+// Bandwidth history
+const bwCtx = document.getElementById('bwChart').getContext('2d');
+new Chart(bwCtx, {
+  type: 'bar',
+  data: { labels: ['10:00','10:15','10:30','10:45','11:00','11:15','11:30','11:45','12:00','12:15'],
+    datasets:[
+      { label:'In',  data:[420,610,520,780,1200,3200,890,540,620,710], backgroundColor:'rgba(0,255,157,0.4)' },
+      { label:'Out', data:[200,300,280,400,600,2800,450,280,310,380],  backgroundColor:'rgba(0,200,255,0.4)' },
+    ]},
+  options: { plugins:{ legend:{ labels:{ boxWidth:8 } } }, scales:{ y:{ beginAtZero:true } } }
+});
 
-// seed live log
-const seed = ['info','info','ok','info','warn','ok','threat'];
-seed.forEach((t,i) => setTimeout(() => streamLog(), i*300));
-setInterval(streamLog, 4000);
+// Protocol pie
+const prCtx = document.getElementById('protoChart').getContext('2d');
+new Chart(prCtx, {
+  type: 'pie',
+  data: { labels:['HTTPS','HTTP','DNS','SSH','Other'],
+    datasets:[{ data:[65,12,8,4,11], backgroundColor:['rgba(0,200,255,0.75)','rgba(0,200,255,0.4)','rgba(0,255,157,0.5)','rgba(255,215,0,0.5)','rgba(255,60,90,0.4)'], borderWidth:0 }]},
+  options: { plugins:{ legend:{ position:'right', labels:{ boxWidth:8, padding:8 } } } }
+});
+
+// ── AUTO-REFRESH ──
+async function refreshData() {
+  const r = await fetchReport();
+  if (r) injectReport(r);
+  scheduleNextRefresh();
+}
+
+function scheduleNextRefresh() {
+  clearTimeout(autoRefreshTimer);
+  if (!document.getElementById('toggle-autorefresh')?.checked) return;
+  nextRefreshAt = Date.now() + refreshInterval;
+  autoRefreshTimer = setTimeout(refreshData, refreshInterval);
+}
+
+function toggleAutoRefresh(cb) {
+  if (cb.checked) scheduleNextRefresh();
+  else { clearTimeout(autoRefreshTimer); document.getElementById('next-refresh').textContent = ''; }
+}
+
+function setRefreshInterval(val) {
+  refreshInterval = parseInt(val);
+  scheduleNextRefresh();
+}
+
+function toggleMock(cb) {
+  addLog('info', `Mock fallback ${cb.checked ? 'enabled' : 'disabled'}`);
+}
+
+// ── BOOT ──
+(async () => {
+  addLog('info', 'VAXINX NetGuard Phase 2 initializing…');
+  addLog('fetch', `fetch() → ${JSON_PATH}`);
+  await refreshData();
+  addLog('ok', 'Dashboard ready.');
+})();
 </script>
 </body>
 </html>

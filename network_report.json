@@ -1,0 +1,195 @@
+{
+  "scan_time": "2025-05-14T14:22:08.441Z",
+  "scanner_version": "vaxinx-netguard v2.0",
+  "host": "REGISLARA-PC",
+  "platform": "Windows-10-19045",
+  "summary": {
+    "total_processes": 47,
+    "safe": 44,
+    "threats": 2,
+    "quarantined": 2,
+    "open_ports": 14,
+    "suspicious_ports": 3,
+    "scan_duration_ms": 1842
+  },
+  "threat_score": {
+    "total": 72,
+    "critical": 1,
+    "high": 1,
+    "medium": 1,
+    "low": 2
+  },
+  "processes": [
+    {
+      "pid": 1234,
+      "name": "chrome.exe",
+      "cpu_percent": 3.2,
+      "mem_percent": 8.1,
+      "connections": 12,
+      "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "status": "safe"
+    },
+    {
+      "pid": 5678,
+      "name": "python.exe",
+      "cpu_percent": 0.8,
+      "mem_percent": 2.4,
+      "connections": 1,
+      "exe_path": "C:\\Python311\\python.exe",
+      "status": "safe"
+    },
+    {
+      "pid": 9001,
+      "name": "svchost.exe",
+      "cpu_percent": 0.1,
+      "mem_percent": 1.2,
+      "connections": 3,
+      "exe_path": "C:\\Windows\\System32\\svchost.exe",
+      "status": "safe"
+    },
+    {
+      "pid": 3344,
+      "name": "netcat.exe",
+      "cpu_percent": 0.5,
+      "mem_percent": 0.8,
+      "connections": 5,
+      "exe_path": "C:\\Users\\Regis\\AppData\\Local\\Temp\\nc.exe",
+      "status": "threat"
+    },
+    {
+      "pid": 7788,
+      "name": "explorer.exe",
+      "cpu_percent": 0.3,
+      "mem_percent": 4.1,
+      "connections": 0,
+      "exe_path": "C:\\Windows\\explorer.exe",
+      "status": "safe"
+    },
+    {
+      "pid": 2211,
+      "name": "unknown_srv.exe",
+      "cpu_percent": 12.4,
+      "mem_percent": 6.3,
+      "connections": 28,
+      "exe_path": "C:\\ProgramData\\Sys32\\unknown_srv.exe",
+      "status": "threat"
+    },
+    {
+      "pid": 4455,
+      "name": "msedge.exe",
+      "cpu_percent": 2.1,
+      "mem_percent": 5.8,
+      "connections": 9,
+      "exe_path": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "status": "safe"
+    }
+  ],
+  "threats": [
+    {
+      "pid": 3344,
+      "name": "netcat.exe",
+      "risk": "CRITICAL",
+      "reason": "Reverse shell signature match · port 4444 outbound · known RAT pattern",
+      "action": "quarantined",
+      "time": "2025-05-14T14:22:08.100Z"
+    },
+    {
+      "pid": 2211,
+      "name": "unknown_srv.exe",
+      "risk": "HIGH",
+      "reason": "Excessive outbound connections (28) · high CPU anomaly · unsigned binary · unknown path",
+      "action": "quarantined",
+      "time": "2025-05-14T14:19:44.300Z"
+    }
+  ],
+  "alerts": [
+    {
+      "severity": "critical",
+      "title": "Reverse shell attempt detected",
+      "details": "PID 3344 · netcat.exe · port 4444 outbound connection",
+      "time": "2025-05-14T14:22:08.100Z"
+    },
+    {
+      "severity": "high",
+      "title": "Anomalous outbound connection spike",
+      "details": "PID 2211 · unknown_srv.exe · 28 simultaneous connections",
+      "time": "2025-05-14T14:19:44.300Z"
+    },
+    {
+      "severity": "medium",
+      "title": "Port 1337 opened by unknown process",
+      "details": "PID 2211 · bind socket · no matching service",
+      "time": "2025-05-14T14:15:03.200Z"
+    },
+    {
+      "severity": "low",
+      "title": "New process spawned from cmd.exe",
+      "details": "PID 9912 · parent: cmd.exe · path: %TEMP%",
+      "time": "2025-05-14T14:08:21.500Z"
+    }
+  ],
+  "ports": {
+    "suspicious": [4444, 1337, 31337],
+    "open": [8080, 3306, 5432, 8443],
+    "known": [80, 443, 53, 22, 25, 3389, 445]
+  },
+  "connections": [
+    {
+      "remote_ip": "192.168.1.45",
+      "remote_port": 9001,
+      "service": "C2?",
+      "local_addr": "0.0.0.0:4444",
+      "protocol": "TCP",
+      "state": "ESTABLISHED",
+      "process": "netcat.exe",
+      "mb_sent": 3.2,
+      "mb_recv": 0.4,
+      "risk": "critical"
+    },
+    {
+      "remote_ip": "52.213.110.9",
+      "remote_port": 443,
+      "service": "HTTPS",
+      "local_addr": "192.168.1.10:52441",
+      "protocol": "TCP",
+      "state": "ESTABLISHED",
+      "process": "chrome.exe",
+      "mb_sent": 1.24,
+      "mb_recv": 32.0,
+      "risk": "safe"
+    },
+    {
+      "remote_ip": "104.21.44.12",
+      "remote_port": 443,
+      "service": "HTTPS",
+      "local_addr": "192.168.1.10:53120",
+      "protocol": "TCP",
+      "state": "ESTABLISHED",
+      "process": "msedge.exe",
+      "mb_sent": 0.88,
+      "mb_recv": 15.0,
+      "risk": "safe"
+    },
+    {
+      "remote_ip": "8.8.8.8",
+      "remote_port": 53,
+      "service": "DNS",
+      "local_addr": "192.168.1.10:49210",
+      "protocol": "UDP",
+      "state": "—",
+      "process": "svchost.exe",
+      "mb_sent": 0.02,
+      "mb_recv": 0.02,
+      "risk": "safe"
+    }
+  ],
+  "safe_processes": [
+    "chrome.exe",
+    "msedge.exe",
+    "firefox.exe",
+    "explorer.exe",
+    "svchost.exe",
+    "python.exe",
+    "code.exe"
+  ]
+}
