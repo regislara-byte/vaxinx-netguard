@@ -11,9 +11,11 @@ VAXINX NetGuard is a local network security monitoring tool that scans running p
 
 Educational defensive monitoring tool for cybersecurity learning, telemetry visualization, and system architecture experimentation.
 
-Live: 
----https://regislara-byte.github.io/vaxinx-netguard/dashboard/---
----https://regislara-byte.github.io/vaxinx-netguard/assets/visualloreartifacts/mascots/brand.html--
+## LIVE
+
+# https://regislara-byte.github.io/vaxinx-netguard/dashboard/
+
+# https://regislara-byte.github.io/vaxinx-netguard/assets/visualloreartifacts/mascots/brand.html
 
 ---
 
