@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAXINX NetGuard — Brand Identity</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Exo+2:ital,wght@0,100;0,300;0,400;1,300&display=swap');
+
+:root {
+  --ink:      #03070f;
+  --deep:     #060d1a;
+  --navy:     #0a1628;
+  --panel:    #0d1e35;
+  --cyan:     #00c8ff;
+  --cyan2:    #38d8ff;
+  --sky:      #7ecfff;
+  --blue:     #1565c0;
+  --cobalt:   #1a3a6e;
+  --violet:   #7b4fc4;
+  --violet2:  #a87eee;
+  --shield:   #1e4a8a;
+  --green:    #00ffb2;
+  --red:      #ff3c5a;
+  --white:    #e8f4ff;
+  --muted:    #4a7899;
+  --dim:      #1e3248;
+  --hex-line: rgba(0,200,255,0.08);
+  --glow-c:   0 0 30px rgba(0,200,255,0.4);
+  --glow-v:   0 0 20px rgba(123,79,196,0.5);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: 'Exo 2', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── ANIMATED HEX GRID BG ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(21,101,192,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0,200,255,0.07) 0%, transparent 50%),
+    linear-gradient(var(--hex-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hex-line) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+  pointer-events: none;
+}
+
+/* scanlines */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 6px);
+  pointer-events: none;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 48px;
+  background: rgba(3,7,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,200,255,0.15);
+}
+
+.nav-logo {
+  font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.1rem;
+  color: var(--cyan); letter-spacing: 0.15em;
+  text-shadow: var(--glow-c);
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo span { color: var(--red); }
+.nav-logo .shield-mini {
+  width: 22px; height: 22px; background: var(--shield);
+  clip-path: polygon(50% 0%,100% 20%,100% 75%,50% 100%,0% 75%,0% 20%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem; color: var(--cyan2);
+}
+
+.nav-links { display: flex; gap: 28px; font-family: 'Share Tech Mono'; font-size: 0.72rem; letter-spacing: 0.1em; }
+.nav-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cyan); }
+
+.nav-cta {
+  font-family: 'Share Tech Mono'; font-size: 0.7rem; letter-spacing: 0.1em;
+  padding: 7px 18px; background: rgba(0,200,255,0.1); color: var(--cyan);
+  border: 1px solid rgba(0,200,255,0.4); cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+}
+.nav-cta:hover { background: rgba(0,200,255,0.2); box-shadow: var(--glow-c); }
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 100px 48px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* big glow orbs behind mascots */
+.hero-glow-l {
+  position: absolute; left: -100px; top: 50%; transform: translateY(-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0,200,255,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-glow-r {
+  position: absolute; right: -100px; top: 50%; transform: translateY(-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(123,79,196,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'Share Tech Mono'; font-size: 0.7rem; letter-spacing: 0.35em;
+  color: var(--cyan); text-transform: uppercase; margin-bottom: 16px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.hero-title {
+  font-family: 'Orbitron', monospace; font-weight: 900;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 1.05; letter-spacing: 0.06em;
+  color: var(--white);
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero-title .accent { color: var(--cyan); text-shadow: var(--glow-c); }
+.hero-title .accent2 { color: var(--red); }
+
+.hero-sub {
+  font-family: 'Exo 2'; font-weight: 300; font-style: italic;
+  font-size: 1.1rem; color: var(--muted); margin-top: 14px; letter-spacing: 0.04em;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+/* ── MASCOT STAGE ── */
+.mascot-stage {
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 40px; margin: 48px 0 32px;
+  animation: fadeUp 0.7s 0.3s ease both;
+}
+
+.mascot-card {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  cursor: pointer;
+}
+
+.mascot-img-wrap {
+  position: relative;
+  width: 240px; height: 240px;
+}
+
+/* hover float */
+.mascot-card:hover .mascot-img {
+  transform: translateY(-12px) scale(1.04);
+  filter: drop-shadow(0 0 30px rgba(0,200,255,0.5));
+}
+
+.mascot-img {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(0 8px 24px rgba(0,150,255,0.35));
+  transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), filter 0.4s ease;
+  animation: float 4s ease-in-out infinite;
+}
+
+.mascot-card:last-child .mascot-img {
+  animation: float 4s 0.8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* orbit ring */
+.mascot-orbit {
+  position: absolute; inset: -16px; border-radius: 50%;
+  border: 1px solid rgba(0,200,255,0.12);
+  animation: spin 12s linear infinite;
+  pointer-events: none;
+}
+.mascot-orbit::before {
+  content: '';
+  position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 8px var(--cyan);
+}
+.mascot-card:last-child .mascot-orbit { animation: spin 16s linear infinite reverse; }
+.mascot-card:last-child .mascot-orbit::before { background: var(--violet2); box-shadow: 0 0 8px var(--violet2); }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.mascot-label {
+  margin-top: 16px; font-family: 'Orbitron', monospace; font-size: 0.72rem;
+  font-weight: 700; letter-spacing: 0.2em; color: var(--cyan-dim);
+  text-transform: uppercase; text-align: center;
+}
+.mascot-label span { display: block; font-family: 'Share Tech Mono'; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 3px; }
+
+/* role badge */
+.mascot-role {
+  margin-top: 8px; font-family: 'Share Tech Mono'; font-size: 0.62rem;
+  padding: 3px 10px; border: 1px solid rgba(0,200,255,0.25);
+  background: rgba(0,200,255,0.05); color: var(--sky); letter-spacing: 0.12em;
+}
+
+.hero-vs {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding-bottom: 50px; gap: 6px;
+  font-family: 'Orbitron'; font-size: 1.4rem; font-weight: 900;
+  color: rgba(0,200,255,0.2); letter-spacing: 0.2em;
+  animation: pulse 3s ease-in-out infinite;
+}
+.hero-vs::before, .hero-vs::after {
+  content: ''; width: 1px; height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(0,200,255,0.2), transparent);
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ── HERO STATS ROW ── */
+.hero-stats {
+  display: flex; gap: 32px; margin-top: 8px;
+  animation: fadeUp 0.7s 0.45s ease both;
+}
+.h-stat { text-align: center; }
+.h-stat-val { font-family: 'Orbitron'; font-size: 1.6rem; font-weight: 700; color: var(--cyan); }
+.h-stat-lbl { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.15em; font-family: 'Share Tech Mono'; }
+.h-sep { width: 1px; background: var(--dim); }
+
+/* ── SECTION: BRAND SPEC ── */
+section {
+  position: relative; z-index: 1;
+  padding: 80px 48px; max-width: 1200px; margin: 0 auto;
+}
+
+.section-eyebrow {
+  font-family: 'Share Tech Mono'; font-size: 0.68rem; letter-spacing: 0.3em;
+  color: var(--cyan); text-transform: uppercase; margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Orbitron'; font-weight: 700; font-size: 1.6rem;
+  color: var(--white); letter-spacing: 0.08em; margin-bottom: 40px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,200,255,0.3), transparent); }
+
+/* ── MASCOT PROFILES ── */
+.profiles {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+
+.profile-card {
+  background: var(--panel); border: 1px solid rgba(0,200,255,0.1);
+  padding: 28px; display: grid; grid-template-columns: 140px 1fr; gap: 24px;
+  align-items: start; transition: border-color 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+
+.profile-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+}
+.profile-card:last-child::before { background: linear-gradient(90deg, var(--violet), transparent); }
+
+.profile-card:hover { border-color: rgba(0,200,255,0.35); box-shadow: 0 0 40px rgba(0,200,255,0.08); }
+.profile-card:last-child:hover { border-color: rgba(123,79,196,0.35); }
+
+.profile-img {
+  width: 140px; height: 140px; object-fit: contain;
+  filter: drop-shadow(0 4px 16px rgba(0,150,255,0.3));
+}
+
+.profile-name {
+  font-family: 'Orbitron'; font-weight: 700; font-size: 0.95rem;
+  color: var(--cyan); letter-spacing: 0.12em; margin-bottom: 4px;
+}
+.profile-card:last-child .profile-name { color: var(--violet2); }
+
+.profile-codename {
+  font-family: 'Share Tech Mono'; font-size: 0.65rem; color: var(--muted);
+  letter-spacing: 0.15em; margin-bottom: 12px;
+}
+
+.profile-desc { font-size: 0.82rem; color: var(--sky); line-height: 1.7; font-weight: 300; margin-bottom: 14px; }
+
+.profile-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-family: 'Share Tech Mono'; font-size: 0.6rem; letter-spacing: 0.1em;
+  padding: 2px 8px; border: 1px solid rgba(0,200,255,0.25);
+  background: rgba(0,200,255,0.05); color: var(--sky);
+}
+.profile-card:last-child .tag { border-color: rgba(123,79,196,0.25); background: rgba(123,79,196,0.05); color: var(--violet2); }
+
+/* ── COLOR PALETTE ── */
+.palette-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+.swatch {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  cursor: pointer;
+}
+.swatch-color {
+  width: 64px; height: 64px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.swatch:hover .swatch-color { transform: scale(1.1); }
+.swatch-name { font-family: 'Share Tech Mono'; font-size: 0.58rem; color: var(--muted); letter-spacing: 0.1em; }
+.swatch-hex  { font-family: 'Share Tech Mono'; font-size: 0.6rem; color: var(--white); }
+
+/* ── TYPOGRAPHY SPEC ── */
+.type-samples { display: flex; flex-direction: column; gap: 20px; }
+.type-row { display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: center; padding: 16px; background: var(--panel); border: 1px solid var(--dim); }
+.type-meta { font-family: 'Share Tech Mono'; font-size: 0.62rem; color: var(--muted); line-height: 1.8; }
+.type-meta strong { color: var(--cyan); display: block; }
+.sample-orbitron { font-family: 'Orbitron'; font-weight: 900; font-size: 1.8rem; color: var(--white); letter-spacing: 0.1em; }
+.sample-mono     { font-family: 'Share Tech Mono'; font-size: 1rem; color: var(--cyan-dim); letter-spacing: 0.08em; }
+.sample-exo      { font-family: 'Exo 2'; font-weight: 300; font-style: italic; font-size: 1.1rem; color: var(--sky); }
+
+/* ── SHIELD MARK ── */
+.brand-marks { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; margin-top: 8px; }
+.shield-mark {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.shield-svg { filter: drop-shadow(0 0 12px rgba(0,200,255,0.4)); transition: transform 0.3s; }
+.shield-svg:hover { transform: scale(1.08); }
+.shield-lbl { font-family: 'Share Tech Mono'; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.15em; }
+
+/* ── USAGE RULES ── */
+.rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.rule-card { padding: 20px; border: 1px solid var(--dim); background: var(--panel); }
+.rule-card.do { border-left: 3px solid var(--green); }
+.rule-card.dont { border-left: 3px solid var(--red); }
+.rule-header { font-family: 'Orbitron'; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; margin-bottom: 10px; }
+.rule-card.do .rule-header { color: var(--green); }
+.rule-card.dont .rule-header { color: var(--red); }
+.rule-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.rule-list li { font-size: 0.76rem; color: var(--muted); padding-left: 14px; position: relative; line-height: 1.5; }
+.rule-list li::before { content: '—'; position: absolute; left: 0; color: var(--dim); }
+
+/* ── CTA STRIP ── */
+.cta-strip {
+  position: relative; z-index: 1;
+  margin: 0 48px 80px; padding: 48px;
+  background: linear-gradient(135deg, rgba(0,200,255,0.06) 0%, rgba(21,101,192,0.08) 100%);
+  border: 1px solid rgba(0,200,255,0.15);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;
+}
+.cta-strip::before {
+  content: 'VAXINX';
+  position: absolute; right: 32px; bottom: -12px;
+  font-family: 'Orbitron'; font-size: 5rem; font-weight: 900;
+  color: rgba(0,200,255,0.04); letter-spacing: 0.2em; pointer-events: none;
+  white-space: nowrap;
+}
+
+.cta-text h3 { font-family: 'Orbitron'; font-size: 1.2rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.cta-text p  { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+.cta-btns { display: flex; gap: 12px; }
+.btn-primary {
+  font-family: 'Share Tech Mono'; font-size: 0.75rem; letter-spacing: 0.1em;
+  padding: 11px 28px; background: var(--cyan); color: var(--ink); border: none; cursor: pointer;
+  font-weight: 700; transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--cyan2); box-shadow: var(--glow-c); transform: translateY(-1px); }
+.btn-ghost {
+  font-family: 'Share Tech Mono'; font-size: 0.75rem; letter-spacing: 0.1em;
+  padding: 11px 28px; background: transparent; color: var(--cyan); border: 1px solid rgba(0,200,255,0.4); cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { background: rgba(0,200,255,0.1); }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  padding: 24px 48px; border-top: 1px solid var(--dim);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Share Tech Mono'; font-size: 0.65rem; color: var(--muted);
+}
+footer .logo-f { font-family: 'Orbitron'; font-weight: 900; font-size: 0.85rem; color: var(--cyan); }
+footer .logo-f span { color: var(--red); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* hexagon decorative elements */
+.hex-deco {
+  position: fixed; pointer-events: none; z-index: 0;
+  opacity: 0.05;
+  font-family: 'Share Tech Mono'; font-size: 0.6rem; color: var(--cyan);
+}
+.hex-deco-1 { top: 15%; right: 5%; }
+.hex-deco-2 { bottom: 25%; left: 3%; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .profiles { grid-template-columns: 1fr; }
+  .mascot-stage { flex-direction: column; align-items: center; }
+  .hero-vs { flex-direction: row; }
+  .rules-grid { grid-template-columns: 1fr; }
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  section { padding: 60px 20px; }
+  .cta-strip { margin: 0 20px 60px; padding: 32px 24px; }
+  footer { padding: 20px; flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEX DECORATIVES -->
+<div class="hex-deco hex-deco-1">
+  ⬡ ⬡ ⬡<br>⬡ ⬡<br>⬡ ⬡ ⬡
+</div>
+<div class="hex-deco hex-deco-2">
+  ⬢ ⬢ ⬢<br>⬢ ⬢ ⬢<br>⬢ ⬢
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="shield-mini">+</div>
+    VAX<span>INX</span>
+  </div>
+  <div class="nav-links">
+    <a href="#mascots">MASCOTS</a>
+    <a href="#palette">PALETTE</a>
+    <a href="#typography">TYPE</a>
+    <a href="#guidelines">GUIDELINES</a>
+  </div>
+  <a href="index.html" class="nav-cta">▶ OPEN DASHBOARD</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="max-width:100%;padding-top:120px">
+  <div class="hero-glow-l"></div>
+  <div class="hero-glow-r"></div>
+
+  <div class="hero-eyebrow">⬡ VAXINX NetGuard · Brand Identity System · v2.0</div>
+  <h1 class="hero-title">
+    THE <span class="accent">GUARDIANS</span><br>
+    OF <span class="accent2">NET</span>GUARD
+  </h1>
+  <p class="hero-sub">Two mascots. One mission. Zero threats.</p>
+
+  <!-- MASCOT STAGE -->
+  <div class="mascot-stage" id="mascots">
+    <!-- FOXLOTL -->
+    <div class="mascot-card">
+      <div class="mascot-img-wrap">
+        <div class="mascot-orbit"></div>
+        <img src="foxlotl_guard.png" alt="Foxlotl Guard" class="mascot-img">
+      </div>
+      <div class="mascot-label">
+        FOXLOTL GUARD
+        <span>Primary Mascot</span>
+      </div>
+      <div class="mascot-role">THREAT HUNTER</div>
+    </div>
+
+    <!-- VS -->
+    <div class="hero-vs">VS</div>
+
+    <!-- VAXINX BOT -->
+    <div class="mascot-card">
+      <div class="mascot-img-wrap">
+        <div class="mascot-orbit"></div>
+        <img src="vaxinx_bot.png" alt="VAXINX Bot" class="mascot-img">
+      </div>
+      <div class="mascot-label">
+        VAXINX BOT
+        <span>Secondary Mascot</span>
+      </div>
+      <div class="mascot-role">SCAN ENGINE</div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="h-stat">
+      <div class="h-stat-val">2</div>
+      <div class="h-stat-lbl">MASCOTS</div>
+    </div>
+    <div class="h-sep"></div>
+    <div class="h-stat">
+      <div class="h-stat-val">1</div>
+      <div class="h-stat-lbl">MISSION</div>
+    </div>
+    <div class="h-sep"></div>
+    <div class="h-stat">
+      <div class="h-stat-val">∞</div>
+      <div class="h-stat-lbl">THREATS STOPPED</div>
+    </div>
+    <div class="h-sep"></div>
+    <div class="h-stat">
+      <div class="h-stat-val">⬡</div>
+      <div class="h-stat-lbl">HEX ARMOR</div>
+    </div>
+  </div>
+</section>
+
+<!-- MASCOT PROFILES -->
+<section>
+  <div class="section-eyebrow">// CHARACTER SHEETS</div>
+  <div class="section-title">Mascot Profiles</div>
+  <div class="profiles">
+
+    <div class="profile-card">
+      <img src="foxlotl_guard.png" alt="Foxlotl Guard" class="profile-img">
+      <div>
+        <div class="profile-name">FOXLOTL GUARD</div>
+        <div class="profile-codename">CODENAME: FLG-01 · PRIMARY MASCOT</div>
+        <p class="profile-desc">
+          A fox-axolotl hybrid encased in hexagonal quantum armor, bearing the VAXINX shield crest.
+          Alert and adaptive — the field agent of NetGuard. Cute but dangerous to malware.
+          First responder when threats breach the perimeter.
+        </p>
+        <div class="profile-tags">
+          <span class="tag">THREAT HUNTER</span>
+          <span class="tag">FIRST RESPONDER</span>
+          <span class="tag">HEX ARMOR v2</span>
+          <span class="tag">VIOLET EYES</span>
+          <span class="tag">TAIL ACTIVE</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <img src="vaxinx_bot.png" alt="VAXINX Bot" class="profile-img">
+      <div>
+        <div class="profile-name">VAXINX BOT</div>
+        <div class="profile-codename">CODENAME: VXB-02 · SCAN ENGINE MASCOT</div>
+        <p class="profile-desc">
+          A bio-mechanical robot fused with the same axolotl DNA, antenna array tuned for
+          packet sniffing. The scanner behind every JSON report. Calm, methodical, relentless.
+          While Foxlotl hunts threats, Bot runs the numbers.
+        </p>
+        <div class="profile-tags">
+          <span class="tag">SCAN ENGINE</span>
+          <span class="tag">PACKET SNIFFER</span>
+          <span class="tag">ANTENNA ARRAY</span>
+          <span class="tag">VIOLET EYES</span>
+          <span class="tag">TAIL SWEEP</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COLOR PALETTE -->
+<section id="palette">
+  <div class="section-eyebrow">// DESIGN TOKENS</div>
+  <div class="section-title">Color System</div>
+
+  <div style="margin-bottom:24px">
+    <div style="font-family:'Share Tech Mono';font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;margin-bottom:14px">PRIMARY BRAND</div>
+    <div class="palette-grid">
+      <div class="swatch"><div class="swatch-color" style="background:#00c8ff;box-shadow:0 0 20px rgba(0,200,255,0.4)"></div><div class="swatch-name">SIGNAL CYAN</div><div class="swatch-hex">#00C8FF</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1565c0"></div><div class="swatch-name">DEEP BLUE</div><div class="swatch-hex">#1565C0</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#0a1628"></div><div class="swatch-name">NAVY INK</div><div class="swatch-hex">#0A1628</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#7b4fc4;box-shadow:0 0 12px rgba(123,79,196,0.4)"></div><div class="swatch-name">EYE VIOLET</div><div class="swatch-hex">#7B4FC4</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1e4a8a"></div><div class="swatch-name">SHIELD BLUE</div><div class="swatch-hex">#1E4A8A</div></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:24px">
+    <div style="font-family:'Share Tech Mono';font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;margin-bottom:14px">ALERT STATES</div>
+    <div class="palette-grid">
+      <div class="swatch"><div class="swatch-color" style="background:#ff3c5a;box-shadow:0 0 16px rgba(255,60,90,0.4)"></div><div class="swatch-name">THREAT RED</div><div class="swatch-hex">#FF3C5A</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ffd700"></div><div class="swatch-name">WARN GOLD</div><div class="swatch-hex">#FFD700</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#00ffb2;box-shadow:0 0 12px rgba(0,255,178,0.3)"></div><div class="swatch-name">SAFE GREEN</div><div class="swatch-hex">#00FFB2</div></div>
+    </div>
+  </div>
+
+  <div>
+    <div style="font-family:'Share Tech Mono';font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;margin-bottom:14px">BACKGROUND SCALE</div>
+    <div class="palette-grid">
+      <div class="swatch"><div class="swatch-color" style="background:#03070f;border-color:rgba(255,255,255,0.2)"></div><div class="swatch-name">BG-0 INK</div><div class="swatch-hex">#03070F</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#060d1a"></div><div class="swatch-name">BG-1 DEEP</div><div class="swatch-hex">#060D1A</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#0a1628"></div><div class="swatch-name">BG-2 NAVY</div><div class="swatch-hex">#0A1628</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#0d1e35"></div><div class="swatch-name">BG-3 PANEL</div><div class="swatch-hex">#0D1E35</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section id="typography">
+  <div class="section-eyebrow">// TYPE SYSTEM</div>
+  <div class="section-title">Typography</div>
+  <div class="type-samples">
+    <div class="type-row">
+      <div class="type-meta">
+        <strong>ORBITRON</strong>
+        Headlines · Logo · Titles<br>
+        weight: 700–900<br>
+        tracking: +0.08–0.2em
+      </div>
+      <div class="sample-orbitron">VAXINX NETGUARD</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <strong>SHARE TECH MONO</strong>
+        UI Labels · Code · Badges<br>
+        weight: 400<br>
+        tracking: +0.08–0.2em
+      </div>
+      <div class="sample-mono">network_report.json · [THREAT] PID 3344 netcat.exe</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <strong>EXO 2</strong>
+        Body · Descriptions<br>
+        weight: 300 italic<br>
+        tracking: +0.02em
+      </div>
+      <div class="sample-exo">Two mascots. One mission. Zero threats on the network.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SHIELD MARK -->
+<section>
+  <div class="section-eyebrow">// BRAND MARKS</div>
+  <div class="section-title">Shield Emblem</div>
+  <div class="brand-marks">
+
+    <!-- Large shield -->
+    <div class="shield-mark">
+      <svg width="80" height="90" viewBox="0 0 80 90" class="shield-svg">
+        <defs>
+          <linearGradient id="sg1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1565c0"/>
+            <stop offset="100%" stop-color="#0d2a5e"/>
+          </linearGradient>
+        </defs>
+        <path d="M40 2 L76 16 L76 52 C76 70 40 88 40 88 C40 88 4 70 4 52 L4 16 Z" fill="url(#sg1)" stroke="#00c8ff" stroke-width="1.5"/>
+        <path d="M40 10 L68 22 L68 50 C68 64 40 78 40 78 C40 78 12 64 12 50 L12 22 Z" fill="none" stroke="rgba(0,200,255,0.2)" stroke-width="1"/>
+        <line x1="40" y1="22" x2="40" y2="68" stroke="#00c8ff" stroke-width="3" stroke-linecap="round"/>
+        <line x1="22" y1="45" x2="58" y2="45" stroke="#00c8ff" stroke-width="3" stroke-linecap="round"/>
+        <text x="40" y="82" text-anchor="middle" font-family="Orbitron" font-size="6" fill="#7ecfff" letter-spacing="2">VAXINX</text>
+      </svg>
+      <div class="shield-lbl">STANDARD · 80px</div>
+    </div>
+
+    <!-- Medium shield -->
+    <div class="shield-mark">
+      <svg width="48" height="54" viewBox="0 0 80 90" class="shield-svg">
+        <path d="M40 2 L76 16 L76 52 C76 70 40 88 40 88 C40 88 4 70 4 52 L4 16 Z" fill="#1e4a8a" stroke="#00c8ff" stroke-width="1.5"/>
+        <line x1="40" y1="22" x2="40" y2="68" stroke="#38d8ff" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="22" y1="45" x2="58" y2="45" stroke="#38d8ff" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+      <div class="shield-lbl">COMPACT · 48px</div>
+    </div>
+
+    <!-- Micro shield -->
+    <div class="shield-mark">
+      <svg width="24" height="28" viewBox="0 0 80 90" class="shield-svg">
+        <path d="M40 2 L76 16 L76 52 C76 70 40 88 40 88 C40 88 4 70 4 52 L4 16 Z" fill="#1e4a8a" stroke="#00c8ff" stroke-width="2"/>
+        <line x1="40" y1="22" x2="40" y2="68" stroke="#38d8ff" stroke-width="5" stroke-linecap="round"/>
+        <line x1="22" y1="45" x2="58" y2="45" stroke="#38d8ff" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="shield-lbl">MICRO · 24px</div>
+    </div>
+
+    <!-- Inverted / dark bg -->
+    <div class="shield-mark">
+      <div style="background:var(--panel);padding:12px;border:1px solid var(--dim)">
+        <svg width="48" height="54" viewBox="0 0 80 90" class="shield-svg" style="filter:none">
+          <path d="M40 2 L76 16 L76 52 C76 70 40 88 40 88 C40 88 4 70 4 52 L4 16 Z" fill="rgba(0,200,255,0.12)" stroke="rgba(0,200,255,0.6)" stroke-width="1.5"/>
+          <line x1="40" y1="22" x2="40" y2="68" stroke="#00c8ff" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="22" y1="45" x2="58" y2="45" stroke="#00c8ff" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="shield-lbl">GHOST · DARK BG</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GUIDELINES -->
+<section id="guidelines">
+  <div class="section-eyebrow">// USAGE RULES</div>
+  <div class="section-title">Brand Guidelines</div>
+  <div class="rules-grid">
+    <div class="rule-card do">
+      <div class="rule-header">✓ DO</div>
+      <ul class="rule-list">
+        <li>Use Foxlotl Guard as the primary face in marketing, splash screens, and hero sections</li>
+        <li>Use VAXINX Bot in technical contexts — scan animations, loading states, bot references</li>
+        <li>Always show mascots on dark backgrounds (#03070F or similar)</li>
+        <li>Maintain the hexagonal texture — it's the core visual motif</li>
+        <li>Keep the VAXINX shield badge visible and readable on both mascots</li>
+        <li>Pair mascots with Orbitron type for headings and Share Tech Mono for labels</li>
+        <li>Use cyan glow effects to highlight mascot appearances</li>
+      </ul>
+    </div>
+    <div class="rule-card dont">
+      <div class="rule-header">✕ DON'T</div>
+      <ul class="rule-list">
+        <li>Don't place mascots on white or light backgrounds — they're built for dark environments</li>
+        <li>Don't remove or obscure the VAXINX shield crest on either mascot</li>
+        <li>Don't scale mascots below 80px — the hex detail becomes illegible</li>
+        <li>Don't use both mascots at equal visual weight — Foxlotl leads, Bot supports</li>
+        <li>Don't use generic sans-serif fonts alongside the mascots</li>
+        <li>Don't recolor — the blue palette is non-negotiable brand identity</li>
+        <li>Don't crop the tail — it's a signature element of both characters</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <div class="cta-text">
+    <h3>Ready to deploy the Guardians?</h3>
+    <p>Run netguard.py · Open the dashboard · Let Foxlotl and Bot do their thing.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="index.html"><button class="btn-primary">▶ OPEN DASHBOARD</button></a>
+    <button class="btn-ghost" onclick="window.open('network_report.json')">≡ VIEW JSON</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo-f">VAX<span>INX</span> NETGUARD</div>
+  <div>Brand Identity System v2.0 · Phase 2 — Real Data Injection</div>
+  <div>MIT License · regislara-byte.github.io/vaxinx-netguard</div>
+</footer>
+
+<script>
+// Hover glow on mascot cards — intensify the orbit ring
+document.querySelectorAll('.mascot-card').forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    card.querySelector('.mascot-orbit').style.borderColor = 'rgba(0,200,255,0.35)';
+    card.querySelector('.mascot-orbit').style.boxShadow = '0 0 20px rgba(0,200,255,0.15)';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.querySelector('.mascot-orbit').style.borderColor = 'rgba(0,200,255,0.12)';
+    card.querySelector('.mascot-orbit').style.boxShadow = 'none';
+  });
+});
+
+// Click swatch — flash copy feedback
+document.querySelectorAll('.swatch').forEach(sw => {
+  sw.addEventListener('click', () => {
+    const hex = sw.querySelector('.swatch-hex').textContent;
+    navigator.clipboard?.writeText(hex);
+    const el = sw.querySelector('.swatch-name');
+    const orig = el.textContent;
+    el.textContent = 'COPIED!';
+    el.style.color = 'var(--green)';
+    setTimeout(() => { el.textContent = orig; el.style.color = ''; }, 1200);
+  });
+});
+
+// Subtle parallax on hero glow orbs
+window.addEventListener('mousemove', e => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 30;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  document.querySelector('.hero-glow-l').style.transform = `translateY(calc(-50% + ${y}px)) translateX(${x * 0.5}px)`;
+  document.querySelector('.hero-glow-r').style.transform = `translateY(calc(-50% + ${-y}px)) translateX(${-x * 0.5}px)`;
+});
+</script>
+</body>
+</html>
